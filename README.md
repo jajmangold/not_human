@@ -110,7 +110,7 @@ data/, figures/
 (cd voice-agent && uv sync --frozen && uv run python -m pytest tests)   # 147 tests
 
 # service-stack unit tests
-(cd stack && python -m pytest tests)                                    # 111 pass, 22 skipped
+(cd stack && pip install -r requirements-test.txt && python -m pytest tests)   # 111 pass, 22 skipped
 
 # regenerate every figure from the recorded result files
 python tools/make_figures.py

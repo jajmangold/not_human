@@ -14,7 +14,7 @@ jobs:
           cd spec && PYTHONPATH=src python -m pytest -q tests
       - name: service-stack unit tests (GPU-dependent tests skip)
         run: |
-          pip install pytest numpy
+          pip install -r stack/requirements-test.txt
           cd stack && python -m pytest -q tests
       - name: voice agent (deps from the lockfile)
         run: |
