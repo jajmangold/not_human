@@ -1,0 +1,7 @@
+layer,mean_ms_low,mean_ms_high,p95_ms,note
+MediaPipe Face Landmarker,7.6,9.9,21,CPU delegate; range = two clips
+MediaPipe Pose Landmarker (lite),40.3,40.3,61.3,CPU delegate
+YOLO26n,47.9,47.9,57.7,mean skewed by one 750 ms warm-up outlier; median 41.9
+RapidOCR PP-OCRv6-small,252,348,400,CPU (ONNX Runtime); correctness never verified (no text in test clips)
+MiniCPM-V-4.6 Q4_K_M (llama.cpp Vulkan),1000,1020,1710,1 fps cadence
+SmolVLM2-256M,1440,1980,2580,1 fps cadence; captions frequently wrong
