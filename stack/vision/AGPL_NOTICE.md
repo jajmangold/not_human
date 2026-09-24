@@ -14,3 +14,6 @@ Neither has been done. The detector was kept because the latency work in
 `docs/lab-notebook/03-perception-latency.md` (8.9x from a CUDA graph) is about this exact model,
 and swapping it in GPU code that could not be run here would trade a licensing problem for an
 untested one.
+
+`stack/advanced_live_portrait` pins `ultralytics==8.2.0` as well and is covered by the same reasoning;
+see `stack/advanced_live_portrait/LICENSE_NOTICE.md`.

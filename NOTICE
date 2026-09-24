@@ -1,55 +1,83 @@
 not_human — third-party notices
 ================================
 
-The MIT license in LICENSE covers the code written for this repository only. It
-does NOT relicense anything below, and it does not cover model weights, datasets
-or generated media. No weights or datasets are included in this repository.
+The MIT license in LICENSE covers the code written for this repository only. It does NOT
+relicense anything below, and it does not cover model weights, datasets or generated media.
+No weights or datasets are included in this repository.
 
-"Recorded" = the license was written down in the sources this repo was built
-from. "General knowledge" = not verified against the upstream at the pinned
-revision; check before you redistribute or use commercially.
+Every entry below was checked on 2026-09-24 against the upstream's own license file or model
+card (GitHub / Hugging Face APIs). Two entries could not be resolved and are marked UNRESOLVED.
+This is a good-faith engineering review, not legal advice.
+
+Components that restrict how this stack can be used or distributed
+-------------------------------------------------------------------
+These four matter. Read them before you publish an image or use anything commercially.
+
+1. ultralytics (AGPL-3.0)
+   Used by TWO services: stack/vision (ultralytics==8.4.145, YOLO26n) and
+   stack/advanced_live_portrait (ultralytics==8.2.0 in its Dockerfile). Building,
+   distributing or network-serving either service takes on AGPL-3.0 obligations. Weights
+   distributed with ultralytics carry the same terms. See stack/vision/AGPL_NOTICE.md.
+
+2. InsightFace buffalo_l model pack (non-commercial research use only)
+   The Advanced LivePortrait path loads `insightface.app.FaceAnalysis(name='buffalo_l')`
+   (LivePortrait/utils/face_analysis_diy.py upstream). InsightFace's code is MIT, but its
+   README states that models trained on its data "are available for non-commercial research
+   purposes only" and that buffalo_l requires contacting them for licensing. The LivePortrait
+   weights bundle ships an `insightface` directory. Treat the LivePortrait/ALP path as
+   research-use-only.
+
+3. ComfyUI-AdvancedLivePortrait (NO LICENSE)
+   github.com/PowerHouseMan/ComfyUI-AdvancedLivePortrait has no license file (GitHub reports
+   none; last push 2024-08-21). Without a license, all rights are reserved by default. This
+   repository does not contain that code: the Dockerfile fetches a pinned commit at build time.
+   Do not publish an image containing it. UNRESOLVED: ask the author for a license.
+
+4. LFM2.5-VL-450M / 3B (LFM 1.0 license, not an OSS license)
+   Model card license: "other / lfm1.0". Read it before use. Not included.
 
 Code and services
 -----------------
-MuseTalk 1.5 ............ MIT (recorded: stack/LICENSE). This repo has only the
-                          integration and performance patches. Retain upstream
-                          notices and the notices of its bundled models.
-CrispASR ................ built from upstream at a pinned commit plus the patch in
-                          stack/crispasr-stt/patches/. Upstream tree carries the
-                          ggml/whisper.cpp MIT license (recorded: LICENSE at that
-                          commit). The patch is MIT-compatible; it is derived work.
-llama.cpp ............... MIT (general knowledge). The lfm2vl image builds from a
-                          fork commit carrying an OPEN, UNMERGED upstream PR
-                          (ggml-org/llama.cpp#25524). See stack/lfm2vl/README.md.
-AdvancedLivePortrait .... upstream had NO checked-in LICENSE at the pinned revision
-                          (recorded: stack/README.md). The LivePortrait lineage is
-                          understood to use face-analysis components with
-                          non-commercial terms (general knowledge). UNRESOLVED:
-                          treat as research-use-only until checked.
-MediaPipe ............... Apache-2.0 (recorded: stack/docs/UPPER-BODY.md).
-LiveKit Agents .......... Apache-2.0 (general knowledge).
-ultralytics / YOLO26n ... AGPL-3.0 (general knowledge). stack/vision pins
-                          ultralytics==8.4.145. Distributing or network-serving
-                          that service carries AGPL obligations that conflict with
-                          treating it as MIT. Swap the detector, or treat
-                          stack/vision as AGPL (see stack/vision/AGPL_NOTICE.md).
-SepFormer (speechbrain) . Apache-2.0 (general knowledge).
+| component | how it is used here | license (checked) |
+|---|---|---|
+| MuseTalk | integration/perf patches in stack/muse_patch; runs inside an image you supply | MIT (code). Its README: "other open-source models used must comply with their license" (whisper, sd-vae-ft-mse, dwpose, S3FD ...); its test data is non-commercial research only |
+| LivePortrait (KwaiVGI) | reached through ALP above | MIT (code); weights card says MIT, but see item 2 |
+| CrispASR | built from a pinned upstream commit + one patch | MIT |
+| llama.cpp (ggml-org, and the michael-dm fork commit for LFM2 tiling) | built in stack/lfm2vl | MIT |
+| Kokoro-FastAPI (remsky) | upstream image run by compose | Apache-2.0 |
+| kokoclone | built in stack/kokoclone | Apache-2.0 |
+| kokoro-onnx | referenced | MIT |
+| misaki | G2P dependency | Apache-2.0 |
+| kokoro_hack | referenced | Apache-2.0 |
+| kanade-tokenizer | referenced | no license file found upstream. UNRESOLVED (only referenced, not used) |
+| TAESD | MuseTalk decode path | MIT |
+| MediaPipe | face / pose landmarkers | Apache-2.0 |
+| LiveKit Agents | voice-agent | Apache-2.0 |
+| speechbrain | SepFormer separation script | Apache-2.0 |
 
-Models (not included; fetched by you)
+Models (not included; you fetch them)
 -------------------------------------
-Whisper large-v3-turbo ........ MIT (general knowledge)
-Kokoro-82M .................... Apache-2.0 (general knowledge)
-MiniCPM-V-4.6 ................. Apache-2.0 (recorded: stack/docs/VISION.md)
-LFM2.5-VL-450M / 3B ........... "LFM1.0 license" (recorded: stack/docs/VISION.md);
-                                read it, it is not a standard OSS license.
-MiniLM-L6-v2 .................. Apache-2.0 (general knowledge)
-IDOL / SMPL-X ................. NOT INCLUDED. IDOL had no root license file at the
-                                pinned revision; SMPL-X is license-gated and
-                                non-commercial by default (recorded:
-                                stack/docs/UPPER-BODY.md).
+| model | license (checked) |
+|---|---|
+| whisper.cpp ggml large-v3-turbo / OpenAI Whisper large-v3-turbo | MIT |
+| Kokoro-82M and its ONNX conversion | Apache-2.0 |
+| MiniCPM-V-4.6 | Apache-2.0 |
+| LFM2.5-VL-450M / 3B GGUF | lfm1.0 (see item 4) |
+| speechbrain/sepformer-wsj02mix | Apache-2.0 |
+| all-MiniLM-L6-v2 | Apache-2.0 |
+| MuseTalk weights (TMElyralab/MuseTalk) | MIT on the card; bundled sub-models per MuseTalk's note above |
+| IDOL / SMPL-X | NOT INCLUDED. IDOL had no root license file at the pinned revision; SMPL-X is license-gated and non-commercial by default |
 
-Datasets used by the evaluation harness (downloaded at run time)
------------------------------------------------------------------
-LibriSpeech test-clean ........ CC BY 4.0 (general knowledge)
-ESC-50 ........................ CC BY-NC 3.0 (general knowledge): non-commercial
-MIT environmental IR survey ... license not checked
+Datasets used by the evaluation harness (downloaded at run time, not included)
+-------------------------------------------------------------------------------
+| dataset | license (checked) |
+|---|---|
+| LibriSpeech (openslr/librispeech_asr) | CC BY 4.0 |
+| ESC-50 | CC BY-NC 3.0 for the dataset as a whole (ESC-10 subset: CC BY 3.0); per-clip terms vary. Non-commercial |
+| MIT environmental impulse responses (davidscripka/) | no license stated on the dataset card. UNRESOLVED |
+
+Container images
+----------------
+Images built from stack/crispasr-stt and stack/lfm2vl contain only MIT-licensed code plus NVIDIA
+CUDA runtime libraries. They are the only images this repository publishes. Images for
+advanced_live_portrait and vision are not published, for the reasons in items 1-3.

@@ -78,11 +78,17 @@ recorded result files or issue threads. They were not re-measured for this relea
   deployment spread services over ~10 specific cards. On a single GPU you will hit the
   serialization and VRAM limits described in the notebook. All target architectures are sm_70.
 
-## Licensing (see NOTICE)
+## Licensing (see NOTICE, checked against upstream on 2026-09-24)
 
-- `stack/vision` depends on `ultralytics` (AGPL-3.0 upstream). Kept and labelled rather than
-  swapped; see `stack/vision/AGPL_NOTICE.md`.
-- The Live Portrait lineage had no LICENSE at the pinned revision.
+- **Two services pull in `ultralytics` (AGPL-3.0):** `stack/vision` and `stack/advanced_live_portrait`.
+  Kept and labelled, not swapped ([vision notice](../stack/vision/AGPL_NOTICE.md)).
+- **The ALP path is research-use-only:** the node has no license, and it loads InsightFace's
+  `buffalo_l` models (non-commercial research only). See
+  [its notice](../stack/advanced_live_portrait/LICENSE_NOTICE.md). Unresolved until the authors
+  are asked.
+- **Only the `crispasr-stt` and `lfm2vl` images are publishable**; the ALP and vision images are not.
+- LFM2.5-VL uses the non-OSS `lfm1.0` license. ESC-50 is non-commercial. The MIT impulse-response
+  dataset states no license.
 - IDOL / SMPL-X are not included and are license-gated.
 - The copyright line in `LICENSE` names the GitHub account (`jajmangold`). Replace it with a legal
   name if you want one before publication.

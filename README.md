@@ -147,6 +147,8 @@ this repo yet**. Those we could not clear stay out.
 ## License
 
 MIT for the code written here ([`LICENSE`](LICENSE)). It does not cover the third-party code,
-models and datasets this depends on, some of which are not permissively licensed (one service
-pulls in an AGPL-3.0 dependency, see `stack/vision/AGPL_NOTICE.md`; the LivePortrait lineage is unresolved). Read [`NOTICE`](NOTICE)
-before you redistribute or use commercially.
+models and datasets this depends on, and some of those are not permissive. Checked against
+upstream: two services pull in AGPL-3.0 `ultralytics`, the LivePortrait path loads
+non-commercial-research InsightFace models and an unlicensed ComfyUI node, and one VLM family uses
+a non-OSS license. **Treat the vision and expression services as research-use-only.** The full
+table is in [`NOTICE`](NOTICE); the caveats are in [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md).
