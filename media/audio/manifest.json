@@ -1,0 +1,41 @@
+{
+  "model": "Kokoro-82M v1.0 ONNX (fp32)",
+  "model_sha256": "8fbea51ea711f2af382e88c833d9e288c6dc82ce5e98421ea61c058ce21a34cb",
+  "voices_sha256": "2d7d7b465bacc28e328096c46c8c171b90c5d855ca1d80b55f2d734e11e2bb08",
+  "voice_type": "preset (no cloning, no reference audio)",
+  "speed": 1.0,
+  "clips": [
+    {
+      "file": "noise-vs-voices__af_heart.wav",
+      "voice": "af_heart",
+      "lang": "en-us",
+      "text": "Six talkers babbling at zero decibels push the recognizer past one hundred percent word error rate. A siren at minus five decibels barely moves it.",
+      "seconds": 10.03,
+      "sample_rate": 24000
+    },
+    {
+      "file": "brow-compensation__am_michael.wav",
+      "voice": "am_michael",
+      "lang": "en-us",
+      "text": "The brow compensation made things worse. Leakage went from zero point one one seven to zero point eight five eight, and it took a measurement to notice.",
+      "seconds": 9.88,
+      "sample_rate": 24000
+    },
+    {
+      "file": "launch-bound__bf_emma.wav",
+      "voice": "bf_emma",
+      "lang": "en-gb",
+      "text": "Ninety four percent of the object detector's latency was not the graphics card computing. It was the graphics card being asked to launch five hundred and thirty kernels for every frame.",
+      "seconds": 10.01,
+      "sample_rate": 24000
+    },
+    {
+      "file": "open-bug__bm_george.wav",
+      "voice": "bm_george",
+      "lang": "en-gb",
+      "text": "One bug is still open. The browser never rendered the avatar's video track, and we wrote down the next thing to try.",
+      "seconds": 7.25,
+      "sample_rate": 24000
+    }
+  ]
+}

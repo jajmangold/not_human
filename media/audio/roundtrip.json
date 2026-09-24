@@ -1,0 +1,42 @@
+{
+  "stt_model": "ggml-large-v3-turbo.bin",
+  "mean_wer": 0.0287,
+  "clips": [
+    {
+      "file": "noise-vs-voices__af_heart.wav",
+      "voice": "af_heart",
+      "wer": 0.0,
+      "reference": "Six talkers babbling at zero decibels push the recognizer past one hundred percent word error rate. A siren at minus five decibels barely moves it.",
+      "hypothesis": "Six talkers babbling at zero decibels push the recognizer past 100% word error rate.  A siren at minus 5 decibels barely moves it.",
+      "hypothesis_normalized": "Six talkers babbling at zero decibels push the recognizer past one hundred percent word error rate.  A siren at minus five decibels barely moves it.",
+      "error": null
+    },
+    {
+      "file": "brow-compensation__am_michael.wav",
+      "voice": "am_michael",
+      "wer": 0.037,
+      "reference": "The brow compensation made things worse. Leakage went from zero point one one seven to zero point eight five eight, and it took a measurement to notice.",
+      "hypothesis": "The brow compensation made things worse.  Leakage went from 0.117 to 0.858, and it took a measurement to notice.  this.",
+      "hypothesis_normalized": "The brow compensation made things worse.  Leakage went from zero point one one seven to zero point eight five eight, and it took a measurement to notice.  this.",
+      "error": null
+    },
+    {
+      "file": "launch-bound__bf_emma.wav",
+      "voice": "bf_emma",
+      "wer": 0.0323,
+      "reference": "Ninety four percent of the object detector's latency was not the graphics card computing. It was the graphics card being asked to launch five hundred and thirty kernels for every frame.",
+      "hypothesis": "94% of the object detector's latency was not the graphics card computing.  It was the graphics card being asked to launch 530 kernels for every frame.  um,",
+      "hypothesis_normalized": "ninety four percent of the object detector's latency was not the graphics card computing.  It was the graphics card being asked to launch five hundred and thirty kernels for every frame.  um,",
+      "error": null
+    },
+    {
+      "file": "open-bug__bm_george.wav",
+      "voice": "bm_george",
+      "wer": 0.0455,
+      "reference": "One bug is still open. The browser never rendered the avatar's video track, and we wrote down the next thing to try.",
+      "hypothesis": "One bug is still open, the browser never rendered the avatar's video track, and we wrote down the next thing to try.  you",
+      "hypothesis_normalized": "One bug is still open, the browser never rendered the avatar's video track, and we wrote down the next thing to try.  you",
+      "error": null
+    }
+  ]
+}

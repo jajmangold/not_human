@@ -89,7 +89,8 @@ stack/         the service stack: MuseTalk resident, LivePortrait bank, MediaPip
 speech/eval/   the adversarial ASR harness and its recorded results
 spec/          typed, deterministic control contracts with tests and ADRs
 docs/lab-notebook/   six write-ups: what we tried, the numbers, what failed
-tools/         figure generation; a proof-of-concept avatar-identity prompt director (LLM draft →
+media/         four preset-voice clips + their STT round-trip scores (provenance by construction)
+tools/         figure generation, demo-audio generator, round-trip scorer; a proof-of-concept avatar-identity prompt director (LLM draft →
                fail-closed checker → image endpoint; needs a compatible generation service)
 data/, figures/
 ```
@@ -141,8 +142,10 @@ hardware-specific. The ideas (measure leakage, count launches, soak the stream) 
 History is fresh: this was assembled from several internal repositories, and the commit history
 was not carried over. Left out on purpose: model weights and datasets; anything derived from real
 people (including personal photographs used during development); a face-swap dataset built on
-real people's photos; and an unrelated interview-assistant project. There are **no demo clips in
-this repo yet**. Those we could not clear stay out.
+real people's photos; and an unrelated interview-assistant project. The only media is
+[`media/`](media/): audio synthesized from this repo's own scripts with preset voices. There are no
+face videos yet; the ones on hand have source portraits we can't trace, and stay out until someone
+can vouch for them.
 
 ## License
 

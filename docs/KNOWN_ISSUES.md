@@ -63,6 +63,14 @@ recorded result files or issue threads. They were not re-measured for this relea
    ([01](lab-notebook/01-hearing-stack.md)).
 5. "Crosstalk is an unfixable architectural limit": it is fixable with separation, with caveats.
 
+## Harness portability
+
+`speech/eval/` scripts read `CRISPASR_BIN`, `CRISPASR_MODEL`, `CRISPASR_GPU` and
+`CRISPASR_MODEL_DIR`. They were made configurable during release prep: an earlier commit still
+hardcoded the original scratch paths and GPU index. `gpu_stream_test.py` is Docker-specific and
+kept as historical evidence only. The CLI binary needs CUDA runtime libraries on the host; the
+round trip in `media/` was run inside a CrispASR container image for that reason.
+
 ## Not done
 
 - **CrispASR patches are not upstreamed** and have no native regression tests.
@@ -93,19 +101,24 @@ recorded result files or issue threads. They were not re-measured for this relea
 - The copyright line in `LICENSE` names the GitHub account (`jajmangold`). Replace it with a legal
   name if you want one before publication.
 
-## Demo clips: none, and why
+## Media
 
-No clip is included. Candidates were reviewed frame by frame and held back:
+**Included:** [`media/audio/`](../media/audio/): four Kokoro preset-voice lines and their STT
+round-trip scores. Provenance by construction (scripted text, named preset voice, hashed model).
+The earlier playground/voice-lab WAVs were *not* used: that path mixes preset, clone and convert
+modes with no per-file record, so a clone of someone's recording could be among them.
+
+**Not included: face videos.** Candidates were reviewed frame by frame and held back:
 
 | candidate | reason held back |
 |---|---|
+| expression-bank clips (10 portrait identities) | 6 of 10 are real people or stock photos, including personal family photos; the remaining portraits have no generation record |
 | `cartoon_talk` | heavily degraded, blurry render; not representative of anything that worked |
 | `idol_final_keep` (and the `idol_*` series) | needs the license-gated SMPL-X body model, which is not included |
-| `greenman_talk15_tight`, `farmer_song_horse`, `pastor_altar_final` | photoreal faces whose source images could not be traced; a real person's photo behind any of them would make the clip unusable |
+| `greenman_talk15_tight`, `farmer_song_horse`, `pastor_altar_final` | photoreal faces whose source images could not be traced |
 
-The clips that would be worth adding are the ones whose source portrait is provably synthetic
-(with the generation prompt or job record kept alongside). Generate new ones from
-`tools/avatar_identity_director.py` output if you want clean provenance.
+A face clip can go in as soon as its source portrait is provably synthetic (generation prompt or
+job record kept alongside). Attestation from the owner is enough; the records on disk are not.
 
 ## Deliberately excluded
 

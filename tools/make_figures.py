@@ -62,4 +62,27 @@ ax.axvline(40, c="k", ls="--", lw=1); ax.text(44, len(names) - 0.55, "25 fps bud
 ax.set_xscale("log"); ax.set_xlabel("mean single-frame latency (ms, log)")
 ax.set_title("Only face landmarks clearly fit a per-frame budget; VLMs are ~1 Hz signals", fontsize=9)
 fig.savefig(OUT / "perception_latency.png", bbox_inches="tight"); plt.close(fig)
+# 5. TTS -> STT closed loop: spectrograms, transcript, and the phantom trailing word
+import wave
+import numpy as np
+
+def read_wav(path):
+    with wave.open(str(path)) as w:
+        return np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16) / 32768.0, w.getframerate()
+
+rt = json.load(open(ROOT / "media/audio/roundtrip.json"))
+fig, axes = plt.subplots(len(rt["clips"]), 1, figsize=(7.2, 1.9 * len(rt["clips"])))
+for ax, c in zip(axes, rt["clips"]):
+    y, sr = read_wav(ROOT / "media/audio" / c["file"])
+    ax.specgram(y, NFFT=1024, Fs=sr, noverlap=768, cmap="magma", vmin=-120, vmax=-40)
+    ax.set_ylim(0, 8000); ax.set_yticks([0, 4000, 8000]); ax.set_yticklabels(["0", "4k", "8k"], fontsize=7)
+    ax.grid(False); ax.set_ylabel(c["voice"], fontsize=8)
+    ref = c["reference"].lower().replace(",", "").replace(".", "").split()
+    hyp = c["hypothesis_normalized"].replace(",", "").replace(".", "").split()
+    extra = hyp[-1] if hyp and hyp[-1].lower() not in ref else None
+    ax.set_title(f'WER {c["wer"]:.3f}' + (f'   extra word never spoken, after the last word: "{extra}"' if extra else "   no errors"),
+                 fontsize=8, loc="left", color=C["turbo"] if extra else "black")
+axes[-1].set_xlabel("seconds")
+fig.suptitle("Preset-voice TTS read back by the STT stack (mean WER %.3f): every error is one word the speaker never said" % rt["mean_wer"], fontsize=8.5, y=1.0)
+fig.tight_layout(); fig.savefig(OUT / "tts_roundtrip.png", bbox_inches="tight"); plt.close(fig)
 print("wrote", sorted(p.name for p in OUT.glob("*.png")))

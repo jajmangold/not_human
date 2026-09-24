@@ -1,3 +1,4 @@
+import os
 """Compare WER and batch throughput across model sizes against the
 persistent server, to find the best-quality model that still stays
 comfortably faster than real-time. Reuses the same corpus/refs as the
@@ -10,15 +11,17 @@ from crisp_utils import wer
 
 SERVER = "http://127.0.0.1:18080"
 CORPUS_META = "corpus/meta.json"
+# Model paths as seen by the *server* process (its own filesystem, e.g. a container mount).
+MODEL_DIR = os.environ.get("CRISPASR_MODEL_DIR", "/models")
 THROUGHPUT_WAV = "scenario_d/interruption.wav"
 THROUGHPUT_DURATION_S = 12.73  # measured earlier from soundfile
 
 MODELS = {
-    "base.en": "/models-base/ggml-base.en.bin",
-    "small.en": "/work/models-quality-test/ggml-small.en.bin",
-    "medium.en": "/work/models-quality-test/ggml-medium.en.bin",
-    "large-v3-turbo": "/work/models-quality-test/ggml-large-v3-turbo.bin",
-    "large-v3": "/work/models-quality-test/ggml-large-v3.bin",
+    "base.en": MODEL_DIR + "/ggml-base.en.bin",
+    "small.en": MODEL_DIR + "/ggml-small.en.bin",
+    "medium.en": MODEL_DIR + "/ggml-medium.en.bin",
+    "large-v3-turbo": MODEL_DIR + "/ggml-large-v3-turbo.bin",
+    "large-v3": MODEL_DIR + "/ggml-large-v3.bin",
 }
 
 

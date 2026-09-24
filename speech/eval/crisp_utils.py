@@ -8,18 +8,20 @@ import numpy as np
 import soundfile as sf
 
 BIN = os.environ.get("CRISPASR_BIN", "crispasr")
-MODEL = os.path.abspath("../vision-stack-test-20260909/asr-models/ggml-base.en.bin")
-NVLIBS = ":".join(
-    os.path.abspath(p)
-    for p in __import__("glob").glob("../vision-stack-test-20260909/.venv/lib/python3.12/site-packages/nvidia/*/lib")
-)
+# Configuration (all optional):
+#   CRISPASR_BIN    path to the crispasr binary                     (default: `crispasr` on PATH)
+#   CRISPASR_MODEL  ggml model used by the CLI-mode scripts         (default: models/ggml-base.en.bin)
+#   CRISPASR_GPU    PCI-bus-order GPU index to run on               (default: 0)
+#   NVIDIA_LIBS     extra colon-separated library dirs for CUDA     (default: none)
+MODEL = os.path.abspath(os.environ.get("CRISPASR_MODEL", "models/ggml-base.en.bin"))
+NVLIBS = os.environ.get("NVIDIA_LIBS", "")
 
 
 def env():
     e = os.environ.copy()
     e["LD_LIBRARY_PATH"] = NVLIBS + ":" + e.get("LD_LIBRARY_PATH", "")
     e["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    e["CUDA_VISIBLE_DEVICES"] = "11"
+    e["CUDA_VISIBLE_DEVICES"] = os.environ.get("CRISPASR_GPU", "0")
     return e
 
 

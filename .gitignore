@@ -18,3 +18,4 @@ node_modules/
 .pytest_cache/
 # eval corpus is downloaded at run time
 speech/eval/corpus/
+media/audio/*.wav.json

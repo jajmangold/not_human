@@ -1,3 +1,6 @@
+"""HISTORICAL / Docker-specific: launches a CUDA-built binary inside a container with the
+original scratch mounts (paths below are container-side). Kept as evidence for the streaming
+GPU runs; it will not run as-is. The portable harness is crisp_utils.py + the test_*.py files."""
 import json
 import os
 import subprocess

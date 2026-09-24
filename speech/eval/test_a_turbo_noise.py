@@ -14,7 +14,7 @@ meta = json.load(open("corpus/meta.json"))
 noise_meta = json.load(open("noise/meta.json"))
 
 print("loading large-v3-turbo on server...")
-_, load_s = load_model("/work/models-quality-test/ggml-large-v3-turbo.bin")
+_, load_s = load_model(os.environ.get("CRISPASR_MODEL_DIR", "/models") + "/ggml-large-v3-turbo.bin")
 print(f"  loaded in {load_s:.2f}s")
 
 by_speaker = {}
