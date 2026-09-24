@@ -71,6 +71,9 @@ Separately, the video generator had an unbounded-queue memory leak
 
 ## Speech synthesis, briefly
 
+[▶ Hear four preset-voice lines](https://jajmangold.github.io/not_human/#speech) and how the STT stack transcribed them back.
+
+
 - **Kokoro** (82M, ONNX, and a GPU FastAPI build) is the fast default voice. Named voice blends and
   a "voice lab" that interpolates style vectors exist in the code; the compose file and the web
   app currently disagree about who serves the lab route (see

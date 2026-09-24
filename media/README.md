@@ -21,7 +21,16 @@ consistent with the trailing-pleasantry hallucination described in
 [lab-notebook/01](../docs/lab-notebook/01-hearing-stack.md), but this run did not isolate the
 cause. n = 4 short clips: an illustration, not a benchmark.
 
-![round trip](../figures/tts_roundtrip.png)
+[▶ **Play all four**](https://jajmangold.github.io/not_human/#speech), or open a file directly:
+
+| voice | line | WER | file |
+|---|---|---|---|
+| `af_heart` | Six talkers babbling at zero decibels… | 0.000 | [wav](audio/noise-vs-voices__af_heart.wav) |
+| `am_michael` | The brow compensation made things worse… | 0.037 | [wav](audio/brow-compensation__am_michael.wav) |
+| `bf_emma` | Ninety four percent of the object detector's latency… | 0.032 | [wav](audio/launch-bound__bf_emma.wav) |
+| `bm_george` | One bug is still open… | 0.045 | [wav](audio/open-bug__bm_george.wav) |
+
+[![round trip](../figures/tts_roundtrip.png)](https://jajmangold.github.io/not_human/#speech)
 
 Voices: Kokoro-82M is Apache-2.0 (see [NOTICE](../NOTICE)).
 
@@ -33,15 +42,29 @@ purpose; reaction strength is capped (see lab-notebook 02). Bank versions differ
 to `v13`, and an older 8 fps `v2` set) and are recorded in `manifest.json` with each source
 filename. Full-height previews:
 
-| Portrait A | Portrait C | Portrait B |
-|---|---|---|
-| ![A](video/preview_portrait-A.gif) | ![C](video/preview_portrait-C.gif) | ![B](video/preview_portrait-B.gif) |
+**Portrait A**
+
+![A](video/preview_portrait-A.gif)
+
+**Portrait C**
+
+![C](video/preview_portrait-C.gif)
+
+**Portrait B** (wink · smile · idle)
+
+![B](video/preview_portrait-B.gif)
+
+[▶ Play every clip full size](https://jajmangold.github.io/not_human/#expressions)
 
 *(each preview: wink · surprise-wink · kiss · smile · nod, left to right; B shows wink · smile · idle)*
 
 The three source portraits are **AI-generated according to the repository owner, who vouched for
 them on 2026-09-24**. The repo holds no generation record for them, so this is an attestation, not
 something the files can prove, and the source images are deliberately not included.
+
+![dinner scene](video/ltx-a2v-dinner-scene.gif)
+
+[▶ With sound](https://jajmangold.github.io/not_human/#a2v)
 
 **`video/ltx-a2v-dinner-scene.mp4`** (2.1 s, 512x320, 24 fps, with audio) is a production-pipeline
 output of the audio-to-video approach in [lab-notebook 04](../docs/lab-notebook/04-audio-to-video-ltx.md):

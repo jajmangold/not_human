@@ -161,6 +161,11 @@ discards the other.** Putting a 2-speaker separation model
 
 ## One artifact worth a second look
 
+[![round trip spectrograms](../../figures/tts_roundtrip.png)](https://jajmangold.github.io/not_human/#speech)
+
+*Fresh preset-voice audio read back by the same stack: 3 of 4 clips gain one extra word at the very end. [▶ Listen](https://jajmangold.github.io/not_human/#speech).*
+
+
 In the raw results for the clean baseline, one clip's hypothesis ends with `Thank you.` that is
 not in the audio. Whisper-family models hallucinate a closing pleasantry over trailing silence.
 Anything that commits transcript text should energy-check the segment's span before believing it.

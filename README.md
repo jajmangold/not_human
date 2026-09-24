@@ -9,6 +9,9 @@ loop runs end to end. The face half exists as pieces that were each proven on th
 all standing at once. This README tells you which is which, and [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)
 tells you what is broken.
 
+**Hear it and see it:** [media player](https://jajmangold.github.io/not_human/) (GitHub can't play audio or video inline, so sound lives
+there; GIFs and figures are embedded below and in each page).
+
 ```
  mic ──▶ ASR ──▶ LLM ──▶ TTS ──▶ speakers                       works, in a browser, end to end
           │       └──▶ reaction (blink · gaze · brow · head)      works, measured
@@ -79,10 +82,6 @@ and wrote down the next diagnostic step instead. → [06](docs/lab-notebook/06-v
 
 ![perception latency](figures/perception_latency.png)
 
-The expression bank at work (wink · surprise-wink · kiss · smile · nod; silent renders, deliberately
-subtle): more in [`media/`](media/).
-
-![expressions](media/video/preview_portrait-A.gif)
 
 ## Layout
 
@@ -99,6 +98,22 @@ tools/         figure generation, demo-audio generator, round-trip scorer; a pro
                fail-closed checker → image endpoint; needs a compatible generation service)
 data/, figures/
 ```
+
+## See and hear it
+
+Speech synthesized with preset voices, then read back by the STT stack. Every error in four clips is one extra word the
+speaker never said, at the very end. [▶ Listen to the four clips](https://jajmangold.github.io/not_human/#speech).
+
+[![spectrograms of the round trip](figures/tts_roundtrip.png)](https://jajmangold.github.io/not_human/#speech)
+
+The expression bank at work, three portraits the owner attests are AI-generated (wink · surprise-wink · kiss · smile · nod,
+left to right; deliberately subtle). [▶ Play them full size](https://jajmangold.github.io/not_human/#expressions).
+
+![expressions](media/video/preview_portrait-A.gif)
+
+An audio-to-video sample (LTX-2.3), shown silent here; [▶ with sound](https://jajmangold.github.io/not_human/#a2v). It illustrates an approach, not working lip sync.
+
+![dinner scene](media/video/ltx-a2v-dinner-scene.gif)
 
 ## Run something (no GPU needed)
 

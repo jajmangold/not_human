@@ -79,6 +79,14 @@ and re-measured against the public endpoint: worst case 0.117, matching the pred
 **What we did not measure:** how it reads perceptually. The fix is driven by the numeric
 leakage metric, not a fresh human or model visual pass.
 
+## What the bank looks like
+
+Wink · surprise-wink · kiss · smile · nod, left to right, on a portrait the repository owner
+attests is AI-generated. The motion is subtle on purpose: reaction strength is capped.
+[▶ Full-size clips](https://jajmangold.github.io/not_human/#expressions).
+
+![expression bank](../../media/video/preview_portrait-A.gif)
+
 ## Smaller things that cost days
 
 - **Alpha-blending adjacent frames ghosted the mouth.** Sample-and-hold fixed it.

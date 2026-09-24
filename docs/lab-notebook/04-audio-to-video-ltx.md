@@ -10,6 +10,11 @@ The approach is the inverse of MuseTalk. MuseTalk paints a mouth onto an existin
 audio. Here a large audio-video diffusion model generates the *entire clip* (face, head, body,
 scene) conditioned on a still image and a real speech WAV.
 
+One production-pipeline output, shown silent here ([▶ with sound](https://jajmangold.github.io/not_human/#a2v)). It illustrates the
+approach; it is **not** evidence that the lip sync worked.
+
+![dinner scene](../../media/video/ltx-a2v-dinner-scene.gif)
+
 ## What the recipe had to be
 
 Conditions that turned out to be load-bearing:

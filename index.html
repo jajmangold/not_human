@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>not_human — media</title>
+<style>
+:root{--bg:#fff;--fg:#1f2328;--mut:#59636e;--line:#d1d9e0;--acc:#d9480f}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1117;--fg:#e6edf3;--mut:#9198a1;--line:#30363d;--acc:#ff8a4c}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:24px 16px 64px}
+h1{margin:.2em 0} h2{margin-top:2em;border-bottom:1px solid var(--line);padding-bottom:.2em}
+a{color:var(--acc)} .mut,figcaption small,.hyp{color:var(--mut)} .hyp{font-size:.9em;margin-top:-.6em}
+figure{margin:1em 0} audio{width:100%} video{width:100%;border-radius:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px} .grid figure{margin:0}
+img{max-width:100%}
+</style></head><body><main>
+<h1>not_human — media</h1>
+<p class="mut">GitHub's README can't play audio or video, so it lives here. Back to the
+<a href="https://github.com/jajmangold/not_human">repository</a>. Everything below is generated from the manifests in <code>media/</code>.</p>
+
+<h2 id="speech">Speech: preset-voice TTS, read back by the STT stack</h2>
+<p>Kokoro <b>preset</b> voices only (no cloning), then transcribed by the same STT service.
+Mean WER 0.029; every error is one extra word the
+speaker never said at the very end. n = 4 clips: an illustration, not a benchmark.</p>
+<figure><figcaption><b>af_heart</b> · 10.03 s · STT WER 0.000</figcaption>
+<audio controls preload="none" src="media/audio/noise-vs-voices__af_heart.wav"></audio>
+<p>Six talkers babbling at zero decibels push the recognizer past one hundred percent word error rate. A siren at minus five decibels barely moves it.</p><p class="hyp">heard: Six talkers babbling at zero decibels push the recognizer past 100% word error rate.  A siren at minus 5 decibels barely moves it.</p></figure>
+<figure><figcaption><b>am_michael</b> · 9.88 s · STT WER 0.037</figcaption>
+<audio controls preload="none" src="media/audio/brow-compensation__am_michael.wav"></audio>
+<p>The brow compensation made things worse. Leakage went from zero point one one seven to zero point eight five eight, and it took a measurement to notice.</p><p class="hyp">heard: The brow compensation made things worse.  Leakage went from 0.117 to 0.858, and it took a measurement to notice.  this.</p></figure>
+<figure><figcaption><b>bf_emma</b> · 10.01 s · STT WER 0.032</figcaption>
+<audio controls preload="none" src="media/audio/launch-bound__bf_emma.wav"></audio>
+<p>Ninety four percent of the object detector&#x27;s latency was not the graphics card computing. It was the graphics card being asked to launch five hundred and thirty kernels for every frame.</p><p class="hyp">heard: 94% of the object detector&#x27;s latency was not the graphics card computing.  It was the graphics card being asked to launch 530 kernels for every frame.  um,</p></figure>
+<figure><figcaption><b>bm_george</b> · 7.25 s · STT WER 0.045</figcaption>
+<audio controls preload="none" src="media/audio/open-bug__bm_george.wav"></audio>
+<p>One bug is still open. The browser never rendered the avatar&#x27;s video track, and we wrote down the next thing to try.</p><p class="hyp">heard: One bug is still open, the browser never rendered the avatar&#x27;s video track, and we wrote down the next thing to try.  you</p></figure>
+<p><a href="figures/tts_roundtrip.png"><img alt="spectrograms with transcripts" src="figures/tts_roundtrip.png"></a></p>
+
+<h2 id="expressions">Expression bank renders</h2>
+<p>Silent, deliberately subtle (reaction strength is capped). The three portraits are
+<b>AI-generated according to the repository owner</b>; the repo holds no generation record for them.</p>
+<h3 id='portrait-A'>portrait-A</h3><div class='grid'><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-A__kiss.mp4"></video>
+<figcaption>kiss <small>(semantic-bank-v11, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-A__nod.mp4"></video>
+<figcaption>nod <small>(semantic-bank-v11, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-A__smile.mp4"></video>
+<figcaption>smile <small>(semantic-bank-v11, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-A__surprise-wink.mp4"></video>
+<figcaption>surprise-wink <small>(semantic-bank-v11, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-A__wink.mp4"></video>
+<figcaption>wink <small>(semantic-bank-v11, 16 fps)</small></figcaption></figure></div><h3 id='portrait-B'>portrait-B</h3><div class='grid'><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-B__smile.mp4"></video>
+<figcaption>smile <small>(expressive-v2, 8 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-B__idle-v1.mp4"></video>
+<figcaption>idle-v1 <small>(idle-v1, 8 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-B__wink.mp4"></video>
+<figcaption>wink <small>(semantic-bank-v11, 16 fps)</small></figcaption></figure></div><h3 id='portrait-C'>portrait-C</h3><div class='grid'><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-C__kiss.mp4"></video>
+<figcaption>kiss <small>(semantic-bank-v13, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-C__nod.mp4"></video>
+<figcaption>nod <small>(semantic-bank-v9, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-C__smile.mp4"></video>
+<figcaption>smile <small>(semantic-bank-v12, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-C__surprise-wink.mp4"></video>
+<figcaption>surprise-wink <small>(semantic-bank-v9, 16 fps)</small></figcaption></figure><figure><video controls loop muted playsinline preload="metadata" src="media/video/expressions/portrait-C__wink.mp4"></video>
+<figcaption>wink <small>(semantic-bank-v9, 16 fps)</small></figcaption></figure></div>
+
+<h2 id="a2v">Audio-to-video sample (with sound)</h2>
+<p>An LTX-2.3 output: an AI-generated dinner scene with a synthetic voice. An illustration of the
+approach in <a href="https://github.com/jajmangold/not_human/blob/main/docs/lab-notebook/04-audio-to-video-ltx.md">notebook 04</a>,
+<b>not</b> evidence that its lip sync worked.</p>
+<video controls playsinline preload="metadata" src="media/video/ltx-a2v-dinner-scene.mp4" style="max-width:512px"></video>
+<p class="mut">LTX-2 Community License applies to the model; see NOTICE.</p>
+</main></body></html>
