@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volta Motion Editor</title><link rel="icon" href="data:,"/><link rel="stylesheet" href="/static/style.css?v=ios2">
+</head><body><main class="shell motion-editor-shell">
+  <p class="eyebrow"><a href="/">← Live portrait</a> / ADVANCEDLIVEPORTRAIT EDITOR</p>
+  <section class="hero"><h1>Move one portrait.</h1><p class="lede">Upload an image, then move the controls. Each slider change renders one fresh expression frame through the resident AdvancedLivePortrait GPU service.</p></section>
+  <section class="card">
+    <label>Portrait <input id="editor-portrait" type="file" accept="image/png,image/jpeg,image/webp" required></label>
+    <div class="editor-grid">
+      <div class="editor-preview">
+        <div class="editor-image-pair"><figure><figcaption>Source</figcaption><div class="editor-image-frame"><img id="editor-source" alt="Uploaded portrait"></div></figure><figure><figcaption>Live expression</figcaption><div class="editor-image-frame"><img id="editor-output" alt="Edited portrait"></div></figure></div>
+        <p id="editor-status" class="status">Choose a portrait to begin.</p>
+      </div>
+      <div id="editor-sliders" class="editor-sliders"><p class="status">Loading control ranges…</p></div>
+    </div>
+    <div class="inspector-actions"><button id="editor-reset" class="secondary" type="button">Reset</button><button id="editor-copy" class="secondary" type="button">Copy values</button><span id="editor-values-status" class="status" role="status"></span></div>
+    <pre id="editor-values" aria-live="polite">{}</pre>
+  </section>
+</main><script src="/static/motion-editor.js?v=alp-edit1"></script></body></html>

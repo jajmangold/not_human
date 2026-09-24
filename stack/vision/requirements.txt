@@ -1,0 +1,29 @@
+# Deliberately does NOT list torch/torchvision -- see Dockerfile. Installing
+# ultralytics (or transformers) without a pin can resolve a stock PyPI torch
+# wheel from PyPI's *default* index, which has dropped sm_70
+# (Volta/CMP-100-210, this fleet's actual silicon) as of torch>=2.6 --
+# confirmed in the 2026-09-09 nothuman vision-stack spike (CUDA error: no
+# kernel image is available for execution on the device). This is narrower
+# than it first looked, though: the *cu126-specific* wheel index still
+# ships sm_70 support even at torch 2.9.1 (confirmed live in this same
+# session, `torch.cuda.get_arch_list()` includes 'sm_70' -- matches the
+# PyTorch RFC the spike's SDNQ addendum cites, and matches this fleet's own
+# production ComfyUI image, `yanwk/comfyui-boot:cu126-megapak`, which is
+# built on exactly this precedent). The Dockerfile installs this file
+# first, then installs torch/torchvision from the cu126 index as a
+# separate, later step, so nothing in this file's resolution can silently
+# pull a different (sm_70-incompatible) torch first.
+fastapi==0.116.1
+uvicorn==0.35.0
+aiohttp==3.11.11
+numpy==2.2.6
+opencv-python-headless==4.11.0.86
+ultralytics==8.4.145
+pillow==12.3.0
+# transformers path for MiniCPM-V-4.6 (not the GGUF/llama-server path) --
+# see minicpmv_runtime.py's docstring for the real batching numbers this
+# choice is based on. Versions match what was actually verified working
+# (batching + text-only classification both smoke-tested for real) in the
+# 2026-09-09 nothuman vision-stack spike's venv, not a guess.
+transformers==5.16.1
+accelerate==1.15.0

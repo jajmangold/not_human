@@ -1,0 +1,8 @@
+{
+  "name": "musetalk-volta-web-assets",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@mediapipe/tasks-vision": "1.0.1"
+  }
+}

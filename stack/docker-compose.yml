@@ -1,0 +1,510 @@
+name: musetalk-volta
+
+services:
+  musetalk:
+    image: ${MUSE_TALK_IMAGE:-musetalk:v100}
+    pull_policy: never
+    container_name: ${MUSE_TALK_CONTAINER_NAME:-musetalk-volta}
+    restart: unless-stopped
+    init: true
+    working_dir: /opt/MuseTalk
+    # Clear the shared readiness marker before Python imports GPU models; otherwise
+    # a restart can briefly report the previous resident as healthy.
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["rm -f /io/MUSE_SERVER_READY && exec python3.10 -m scripts.muse_server"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${MUSE_TALK_GPU_ID:-0}"]
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${MUSE_TALK_GPU_ID:-0}
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
+      MUSE_TALK_HOME: /opt/MuseTalk
+      MUSE_JOBS: /io/muse_jobs
+      USE_TAESD: ${MUSE_USE_TAESD:-1}
+      MUSE_USE_CUDA_GRAPH: ${MUSE_USE_CUDA_GRAPH:-1}
+      MUSE_JOB_POLL_INTERVAL: ${MUSE_JOB_POLL_INTERVAL:-0.01}
+      TAESD_DIR: /opt/MuseTalk/models/taesd
+      MUSE_NO_PINGPONG: ${MUSE_NO_PINGPONG:-1}
+      MUSE_PREP_WORKERS: ${MUSE_PREP_WORKERS:-10}
+      MUSE_BLEND_WORKERS: ${MUSE_BLEND_WORKERS:-20}
+      MUSE_TAESD_ENCODE: ${MUSE_TAESD_ENCODE:-0}
+      MUSE_CACHE_AVATARS: ${MUSE_CACHE_AVATARS:-1}
+      MUSE_MAX_CACHED_AVATARS: ${MUSE_MAX_CACHED_AVATARS:-4}
+      MUSE_MAX_POSE_FLOW_CACHE: ${MUSE_MAX_POSE_FLOW_CACHE:-64}
+      MUSE_IDLE_CYCLE_FRAMES: ${MUSE_IDLE_CYCLE_FRAMES:-64}
+      MUSE_BATCH_SIZE: ${MUSE_BATCH_SIZE:-50}
+      MUSE_AUDIO_WARMUP: ${MUSE_AUDIO_WARMUP:-1}
+      TORCH_HOME: /root/.cache/torch
+    volumes:
+      - ${MUSE_TALK_MODEL_CACHE:-./models/musetalk}:/opt/MuseTalk/models:ro
+      - ${MUSE_TALK_IO_DIR:-./runtime}:/io
+      - ${MUSE_TALK_RESULTS_DIR:-./runtime-data/musetalk-results}:/opt/MuseTalk/results
+      - ${MUSE_TALK_TORCH_CACHE:-./runtime-data/torch-cache}:/root/.cache/torch
+      - ./muse_patch/muse_server.py:/opt/MuseTalk/scripts/muse_server.py:ro
+      - ./muse_patch/reaction_schedule.py:/opt/MuseTalk/scripts/reaction_schedule.py:ro
+      - ./muse_patch/motion_compositor.py:/opt/MuseTalk/motion_compositor.py:ro
+      - ./muse_patch/pose_warp.py:/opt/MuseTalk/pose_warp.py:ro
+      - ./muse_patch/preprocessing.py:/opt/MuseTalk/musetalk/utils/preprocessing.py:ro
+      - ./muse_patch/face_parsing_init.py:/opt/MuseTalk/musetalk/utils/face_parsing/__init__.py:ro
+    healthcheck:
+      test: ["CMD-SHELL", "test -s /io/MUSE_SERVER_READY && test -d /io/muse_jobs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30m
+
+  kokoro:
+    image: ghcr.io/remsky/kokoro-fastapi-gpu:latest
+    pull_policy: always
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${KOKORO_GPU_ID:-0}"]
+              capabilities: [gpu]
+    environment:
+      API_LOG_LEVEL: WARNING
+      DEFAULT_VOICE: af_heart
+      DEVICE_TYPE: cuda
+      ENABLE_WEB_PLAYER: "false"
+      USE_GPU: "true"
+      WEB_CONCURRENCY: "1"
+    volumes:
+      - kokoro-fastapi-cache:/var/lib/kokoro
+    expose:
+      - "8880"
+    # Host-loopback only (not tailnet-wide) so the LiveKit agent -- a
+    # separate host-network process for internal issue #45, not on this
+    # compose network -- can reach it via 127.0.0.1 without a new
+    # tailnet-exposed surface. Host-side port shifted to 18091 (not 8091)
+    # to leave a clear, collision-free "18xxx = published musetalk-volta
+    # internal port" convention -- 8094 (affect, below) already collides
+    # with an unrelated existing host process on that literal port.
+    ports:
+      - "127.0.0.1:18091:8880"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8880/health', timeout=2)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 2m
+
+  kokoclone:
+    build:
+      context: ./kokoclone
+      args:
+        KOKOCLONE_REVISION: ${KOKOCLONE_REVISION:-dd6bd3acd3010dc223978839761db74957195f98}
+    image: musetalk-kokoclone:local
+    restart: unless-stopped
+    environment:
+      KOKOCLONE_ENABLED: ${KOKOCLONE_ENABLED:-1}
+      KOKOCLONE_MAX_UPLOAD_BYTES: ${KOKOCLONE_MAX_UPLOAD_BYTES:-10485760}
+      HF_HOME: /models/huggingface
+      TORCH_HOME: /models/torch
+    volumes:
+      - ${KOKOCLONE_MODEL_DIR:-./models/kokoclone}:/models/kokoclone
+      - ${KOKOCLONE_HF_CACHE_DIR:-./models/kokoclone-huggingface}:/models/huggingface
+      - ${KOKOCLONE_TORCH_CACHE_DIR:-./models/kokoclone-torch}:/models/torch
+    expose:
+      - "8098"
+    ports:
+      - "127.0.0.1:18098:8098"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8098/healthz', timeout=2)"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  advanced-live-portrait:
+    build:
+      context: ./advanced_live_portrait
+      args:
+        MUSE_TALK_IMAGE: ${MUSE_TALK_IMAGE:-musetalk:v100}
+        ALP_REVISION: ${ADVANCED_LIVE_PORTRAIT_REVISION:-3bba732915e22f18af0d221b9c5c282990181f1b}
+    image: musetalk-advanced-live-portrait:local
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${ADVANCED_LIVE_PORTRAIT_GPU_ID:-0}"]
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${ADVANCED_LIVE_PORTRAIT_GPU_ID:-0}
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
+      ALP_MODEL_DIR: /models
+      ALP_CACHE_DIR: /cache
+      ALP_REVISION: ${ADVANCED_LIVE_PORTRAIT_REVISION:-3bba732915e22f18af0d221b9c5c282990181f1b}
+      ALP_MOTION_PROFILE: ${ADVANCED_LIVE_PORTRAIT_PROFILE:-semantic-bank-v13-blink-brow-fix}
+      ALP_MAX_SOURCE_EDGE: ${ADVANCED_LIVE_PORTRAIT_MAX_SOURCE_EDGE:-512}
+    volumes:
+      - ${ADVANCED_LIVE_PORTRAIT_MODEL_DIR:-./models/advanced-live-portrait}:/models:ro
+      - ${ADVANCED_LIVE_PORTRAIT_CACHE_DIR:-./runtime-data/alp-cache}:/cache
+    expose:
+      - "8093"
+    healthcheck:
+      test: ["CMD", "python3.10", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8093/healthz', timeout=2)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 5m
+
+  affect:
+    build: ./affect
+    image: musetalk-affect:local
+    restart: unless-stopped
+    environment:
+      MINILM_MODEL_DIR: /models/minilm
+      MINILM_REVISION: ${MINILM_REVISION:-1110a243fdf4706b3f48f1d95db1a4f5529b4d41}
+      MINILM_MODEL_SHA256: ${MINILM_MODEL_SHA256:-6fd5d72fe4589f189f8ebc006442dbb529bb7ce38f8082112682524616046452}
+      MINILM_TOKENIZER_SHA256: ${MINILM_TOKENIZER_SHA256:-be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037}
+    volumes:
+      - ${MINILM_MODEL_DIR:-./models/minilm-l6-v2}:/models/minilm:ro
+    expose:
+      - "8094"
+    # Host-loopback only -- see the kokoro service's note above. 18094 (not
+    # 8094) because an unrelated existing host process
+    # (an unrelated host service) already listens on 127.0.0.1:8094.
+    ports:
+      - "127.0.0.1:18094:8094"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8094/healthz', timeout=2)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 2m
+
+  # GPU-accelerated replacement for the original CPU-only faster-whisper
+  # service (#45's whisper-stt) -- see crispasr-stt/vendor/README.md and
+  # docs/lab-notebook/01-hearing-stack.md
+  # for the evaluation this is built on. Same OpenAI-compatible
+  # /v1/audio/transcriptions contract and external port (18097), so the
+  # LiveKit agent (#45, a separate host-network process) needs no changes.
+  # large-v3-turbo: 0.066 clean WER vs. 0.211 for base.en on the same GPU server (the CPU faster-whisper small.en was never benchmarked in that harness)
+  # setup, and comfortably real-time (~14x on this fleet's GV100 "Volta"
+  # silicon). Concurrency note: the server serializes requests through a
+  # single model_mutex, and a second process on the same GPU contends for
+  # compute rather than adding real parallelism (measured: ~2x slowdown
+  # each running two full-utterance requests simultaneously, combined
+  # throughput unchanged) -- budget concurrent sessions against the single
+  # -stream throughput figure above, not against GPU count.
+  crispasr-stt:
+    build: ./crispasr-stt
+    image: musetalk-crispasr-stt:local
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${CRISPASR_STT_GPU_ID:-0}"]
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${CRISPASR_STT_GPU_ID:-0}
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    volumes:
+      - ${CRISPASR_STT_MODEL_DIR:-./models/crispasr-stt}:/models:ro
+    expose:
+      - "8097"
+    # Host-loopback only -- for the LiveKit agent (#45), a separate
+    # host-network process, not on this compose network.
+    ports:
+      - "127.0.0.1:18097:8097"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8097/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 3m
+
+  feedback:
+    build: ./feedback
+    image: musetalk-feedback:local
+    restart: unless-stopped
+    environment:
+      MEDIAPIPE_FACE_LANDMARKER_MODEL: /models/face_landmarker.task
+      MEDIAPIPE_FACE_LANDMARKER_SHA256: ${MEDIAPIPE_FACE_LANDMARKER_SHA256:-64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff}
+    volumes:
+      - ${MEDIAPIPE_FACE_LANDMARKER_DIR:-./models/mediapipe-face-landmarker}:/models:ro
+    expose:
+      - "8095"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8095/healthz', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 2m
+
+  upper-body:
+    build: ./upper_body
+    image: musetalk-upper-body:local
+    restart: unless-stopped
+    environment:
+      MEDIAPIPE_POSE_LANDMARKER_MODEL: /models/pose_landmarker_lite.task
+      MEDIAPIPE_POSE_LANDMARKER_SHA256: ${MEDIAPIPE_POSE_LANDMARKER_SHA256:-59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a}
+    volumes:
+      - ${MEDIAPIPE_POSE_LANDMARKER_DIR:-./models/mediapipe-pose-landmarker}:/models:ro
+    expose:
+      - "8096"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8096/healthz', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 2m
+
+  # Live perception for the human participant's own camera, for the
+  # LiveKit voice agent (internal issue #45) -- see the 2026-09-09
+  # nothuman vision-stack spike and vision/app.py's module docstring for
+  # the full rationale. NOT the same job as feedback/upper-body above
+  # (those analyze the AVATAR's own driving frames for MuseTalk
+  # rendering); this analyzes what the LiveKit agent's camera sees, which
+  # nothing previously consumed. Owns YOLO26n and MiniCPM-V-4.6
+  # in-process (GPU-resident); proxies to feedback/upper-body for
+  # face/pose rather than loading a second copy of those models.
+  # Fast, small vision-language model (LiquidAI/LFM2.5-VL-450M, 449M
+  # params) for `vision`'s image-based calls (ambient caption + on-demand
+  # targeted query) -- see docs/VISION.md and lfm2vl/vendor/README.md.
+  # Built from an unmerged llama.cpp PR fixing LFM2's GGUF tiling params
+  # (mainline segfaults / runs at ~0.2 tok/s on this model without it).
+  # Replaced MiniCPM-V-4.6 for these two calls after real measurement:
+  # ~150-185ms/request vs MiniCPM-V's ~939ms-3.1s, same or better accuracy
+  # on every test tried. MiniCPM-V stays (in `vision`, below) for
+  # classify_transcript only -- this model tested unreliable at that task
+  # (answered ARTIFACT for everything, including obviously real text).
+  lfm2vl:
+    build: ./lfm2vl
+    image: musetalk-lfm2vl:local
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${LFM2VL_GPU_ID:-0}"]
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${LFM2VL_GPU_ID:-0}
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    volumes:
+      - ${LFM2VL_MODEL_DIR:-./models/lfm2vl}:/models:ro
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 2m
+
+  # Same image as `lfm2vl` above (same binary, same fixed llama.cpp
+  # build), pointed at the 3B variant instead of the 450M one -- used only
+  # for agent.py's periodic (~20s) background scene-narrative
+  # consolidation, not the fast per-turn/per-tick calls `lfm2vl` handles.
+  # Added 2026-09-10 per request ("is there anything we can do... to boost
+  # temporal coherence"): a live test found the bigger model can directly
+  # look at the CURRENT frame while narrating (not just synthesize text
+  # from what the smaller model already said, possibly wrongly), and
+  # real measurement showed it's the same latency class as the 450M model
+  # for short answers (~162-183ms) -- the extra params buy meaningfully
+  # richer, more accurate description (confirmed: a detailed 4-sentence
+  # description in ~1.4s correctly identified clothing color and multiple
+  # background objects the 450M model's one-liners never attempted) at
+  # essentially the same per-request cost for this infrequent use. See
+  # docs/VISION.md.
+  lfm2vl-narrate:
+    build: ./lfm2vl
+    image: musetalk-lfm2vl:local
+    restart: unless-stopped
+    command:
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8080"
+      - --n-gpu-layers
+      - "99"
+      - -m
+      - /models/LFM2.5-VL-3B-Q4_K_M.gguf
+      - --mmproj
+      - /models/mmproj-LFM2.5-VL-3B-Q8_0.gguf
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              # Deliberately NOT GPU 6 (where lfm2vl + vision's in-process
+              # YOLO/MiniCPM-V already live) -- narration isn't on the
+              # conversational hot path, but it's real GPU compute that
+              # would otherwise compete with lfm2vl's ambient-caption
+              # calls, which ARE latency-sensitive (see DEFAULT_FRAME_
+              # INTERVAL_S's history in vision_client.py). Confirmed idle
+              # (0 compute processes, `nvidia-smi --query-compute-apps`)
+              # at the time this was picked.
+              device_ids: ["${LFM2VL_NARRATE_GPU_ID:-0}"]
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${LFM2VL_NARRATE_GPU_ID:-0}
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    volumes:
+      - ${LFM2VL_NARRATE_MODEL_DIR:-./models/lfm2vl-3b}:/models:ro
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 2m
+
+  vision:
+    build: ./vision
+    image: musetalk-vision:local
+    restart: unless-stopped
+    depends_on:
+      feedback:
+        condition: service_healthy
+      upper-body:
+        condition: service_healthy
+      lfm2vl:
+        condition: service_healthy
+      lfm2vl-narrate:
+        condition: service_healthy
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${VISION_GPU_ID:-0}"]
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${VISION_GPU_ID:-0}
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      FEEDBACK_URL: http://feedback:8095
+      UPPER_BODY_URL: http://upper-body:8096
+      LFM2VL_URL: http://lfm2vl:8080
+      LFM2VL_NARRATE_URL: http://lfm2vl-narrate:8080
+      YOLO_MODEL_PATH: /models/yolo/yolo26n.pt
+      MINICPMV_MODEL_ID: ${MINICPMV_MODEL_ID:-openbmb/MiniCPM-V-4.6}
+    volumes:
+      - ${YOLO_MODEL_DIR:-./models/yolo26n}:/models/yolo:ro
+      # MiniCPM-V-4.6 is pulled from the HF hub by transformers on first
+      # start (no separate download/checksum step exists yet for it, unlike
+      # every other model in this file) -- this volume just keeps that
+      # download from repeating on every container restart. See
+      # docs/VISION.md for exactly what's cached under here.
+      - ${VISION_HF_CACHE_DIR:-./runtime-data/hf-cache}:/root/.cache/huggingface
+    # Host-loopback only -- for the LiveKit agent (#45), a separate
+    # host-network process, not on this compose network. Matches the
+    # 18xxx convention (kokoro=18091, affect=18094, crispasr-stt=18097).
+    ports:
+      - "127.0.0.1:18098:8098"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8098/healthz', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      # Both models load into VRAM at startup (YOLO26n + MiniCPM-V-4.6,
+      # ~4-5GB combined per minicpmv_runtime.py's measured peak) -- give it
+      # real headroom, matching musetalk's own 30m start_period for a
+      # similar GPU-model-load startup cost.
+      start_period: 10m
+
+  web:
+    build: ./web
+    image: musetalk-demo:local
+    restart: unless-stopped
+    depends_on:
+      musetalk:
+        condition: service_healthy
+      kokoro:
+        condition: service_healthy
+      affect:
+        condition: service_healthy
+      feedback:
+        condition: service_healthy
+      upper-body:
+        condition: service_healthy
+      advanced-live-portrait:
+        condition: service_healthy
+    environment:
+      MUSE_TALK_IO_DIR: /io
+      KOKORO_URL: http://kokoro:8880
+      KOKOCLONE_URL: http://kokoclone:8098
+      AFFECT_URL: http://affect:8094
+      FEEDBACK_URL: http://feedback:8095
+      UPPER_BODY_URL: http://upper-body:8096
+      UPPER_BODY_ENABLED: ${UPPER_BODY_ENABLED:-1}
+      ADVANCED_LIVE_PORTRAIT_URL: http://advanced-live-portrait:8093
+      ADVANCED_LIVE_PORTRAIT_ENABLED: ${ADVANCED_LIVE_PORTRAIT_ENABLED:-1}
+      ADVANCED_LIVE_PORTRAIT_FRAMES: ${ADVANCED_LIVE_PORTRAIT_FRAMES:-28}
+      ADVANCED_LIVE_PORTRAIT_REVISION: ${ADVANCED_LIVE_PORTRAIT_REVISION:-3bba732915e22f18af0d221b9c5c282990181f1b}
+      ADVANCED_LIVE_PORTRAIT_PROFILE: ${ADVANCED_LIVE_PORTRAIT_PROFILE:-semantic-bank-v13-blink-brow-fix}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://localhost:8000/v1}
+      LLM_MODEL: ${LLM_MODEL:-qwen27b}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      MUSE_DEMO_MAX_UPLOAD_BYTES: ${MUSE_DEMO_MAX_UPLOAD_BYTES:-10485760}
+      MUSE_DEMO_MAX_PROMPT: ${MUSE_DEMO_MAX_PROMPT:-8000}
+      MUSE_DEMO_MAX_REPLY_TOKENS: ${MUSE_DEMO_MAX_REPLY_TOKENS:-512}
+      MUSE_DEMO_JOB_TIMEOUT: ${MUSE_DEMO_JOB_TIMEOUT:-300}
+      MUSE_DEMO_SESSION_TTL: ${MUSE_DEMO_SESSION_TTL:-600}
+      MUSE_DEMO_STREAM_BATCH_SIZE: ${MUSE_DEMO_STREAM_BATCH_SIZE:-4}
+      MUSE_DEMO_STREAM_FPS: ${MUSE_DEMO_STREAM_FPS:-16}
+      MUSE_DEMO_IDLE_CYCLE_FRAMES: ${MUSE_IDLE_CYCLE_FRAMES:-64}
+      MUSE_MAX_CACHED_AVATARS: ${MUSE_MAX_CACHED_AVATARS:-4}
+      MUSE_MAX_POSE_FLOW_CACHE: ${MUSE_MAX_POSE_FLOW_CACHE:-64}
+      MUSE_DEMO_START_RATE_LIMIT: ${MUSE_DEMO_START_RATE_LIMIT:-6}
+      MUSE_DEMO_FEEDBACK_RATE_LIMIT: ${MUSE_DEMO_FEEDBACK_RATE_LIMIT:-900}
+      MUSE_DEMO_MOTION_EDIT_RATE_LIMIT: ${MUSE_DEMO_MOTION_EDIT_RATE_LIMIT:-240}
+      MUSE_DEMO_MAX_RATE_KEYS: ${MUSE_DEMO_MAX_RATE_KEYS:-4096}
+      MUSE_DEMO_AUTH_TOKEN: ${MUSE_DEMO_AUTH_TOKEN:-}
+      MEDIAPIPE_FACE_LANDMARKER_MODEL: /models/mediapipe/face_landmarker.task
+      MEDIAPIPE_FACE_LANDMARKER_SHA256: ${MEDIAPIPE_FACE_LANDMARKER_SHA256:-64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff}
+    volumes:
+      - ${MUSE_TALK_IO_DIR:-./runtime}:/io
+      - ${MEDIAPIPE_FACE_LANDMARKER_DIR:-./models/mediapipe-face-landmarker}:/models/mediapipe:ro
+    ports:
+      - "${MUSE_DEMO_BIND:-0.0.0.0}:${MUSE_DEMO_PORT:-8092}:8080"
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/healthz', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  startup-qa:
+    build: ./web
+    image: musetalk-demo:local
+    restart: "no"
+    depends_on:
+      musetalk:
+        condition: service_healthy
+      advanced-live-portrait:
+        condition: service_healthy
+      feedback:
+        condition: service_healthy
+    command: ["python", "startup_qa.py"]
+    environment:
+      MUSE_TALK_IO_DIR: /io
+      ADVANCED_LIVE_PORTRAIT_URL: http://advanced-live-portrait:8093
+      FEEDBACK_URL: http://feedback:8095
+      STARTUP_QA_PORTRAIT: ${STARTUP_QA_PORTRAIT:-/io/web_demo/uploads/portrait-d08aa48606ebf5e43a2a.png}
+      STARTUP_QA_VISION_BASE_URL: ${STARTUP_QA_VISION_BASE_URL:-http://localhost:8000/v1}
+      STARTUP_QA_VISION_MODEL: ${STARTUP_QA_VISION_MODEL:-qwen27b}
+      STARTUP_QA_VISION_API_KEY: ${LLM_API_KEY:-}
+      STARTUP_QA_TIMEOUT: ${STARTUP_QA_TIMEOUT:-300}
+      STARTUP_QA_FPS: ${MUSE_DEMO_STREAM_FPS:-16}
+    volumes:
+      - ${MUSE_TALK_IO_DIR:-./runtime}:/io
+
+volumes:
+  kokoro-fastapi-cache:

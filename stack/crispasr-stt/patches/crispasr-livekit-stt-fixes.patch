@@ -1,0 +1,283 @@
+diff --git a/examples/server/ws_stream.cpp b/examples/server/ws_stream.cpp
+index 6d09b2e..fe0e6ec 100755
+--- a/examples/server/ws_stream.cpp
++++ b/examples/server/ws_stream.cpp
+@@ -8,7 +8,11 @@
+ //   - No TLS (use a reverse proxy for wss://)
+ //   - No fragmented frames (each client message must be a single frame)
+ //   - Max frame payload 1 MB (plenty for PCM chunks)
+-//   - No ping/pong (connection drops on timeout)
++//   - Server never initiates its own ping; it only replies to client
++//     pings with a pong (see ws_send_pong). That was previously listed
++//     here as "no ping/pong (connection drops on timeout)", but that
++//     silently broke any standards-compliant client that pings for
++//     keepalive during natural conversational pauses -- see ws_send_pong.
+ 
+ #include "ws_stream.h"
+ // CrispasrSession/CrispasrStream types and functions are forward-declared
+@@ -168,6 +172,81 @@ static void ws_send_close(socket_t fd) {
+     send_all(fd, frame, 2);
+ }
+ 
++// Send a pong frame echoing back a ping's payload (RFC 6455 5.5.3: "A Pong
++// frame sent in response to a Ping frame must have identical
++// 'Application data' as found in the message body of the Ping frame being
++// replied to"). Previously ping (0x09) frames were read off the socket
++// but never handled at all -- the file's own header comment even called
++// this out as an intentional limitation ("No ping/pong (connection drops
++// on timeout)"), but that's a real problem for any standards-compliant
++// client that does keepalive ping/pong (many do, including Python's
++// `websockets` library used in this evaluation's own test harness): with
++// no pong ever coming back, such a client eventually force-closes the
++// connection as unresponsive, killing any session that goes quiet for
++// longer than the client's ping timeout -- including natural pauses in a
++// real conversation. Found via a soak test: a persistent session that
++// worked correctly for several turns died with a WebSocket 1011
++// "keepalive ping timeout" every ~20-30s.
++static bool ws_send_pong(socket_t fd, const std::vector<uint8_t>& payload) {
++    std::vector<uint8_t> frame;
++    frame.push_back(0x8A); // FIN + pong opcode
++    if (payload.size() < 126) {
++        frame.push_back((uint8_t)payload.size());
++    } else if (payload.size() < 65536) {
++        frame.push_back(126);
++        frame.push_back((uint8_t)(payload.size() >> 8));
++        frame.push_back((uint8_t)(payload.size() & 0xFF));
++    } else {
++        frame.push_back(127);
++        for (int i = 7; i >= 0; i--)
++            frame.push_back((uint8_t)(payload.size() >> (8*i)));
++    }
++    frame.insert(frame.end(), payload.begin(), payload.end());
++    return send_all(fd, frame.data(), frame.size());
++}
++
++// Escape a transcribed-text string for embedding in a JSON string literal.
++// Previously the two JSON-building call sites below embedded text_buf via
++// a raw snprintf %s with a comment claiming this was handled ("Escape
++// quotes in text for valid JSON") but no actual escaping -- any
++// transcribed text containing a literal '"' (quoted dialogue, common in
++// read-aloud literature) produced malformed JSON that broke client
++// parsers mid-stream, including on the final=true event, which then never
++// arrives correctly formed. Found via a multi-turn soak test hang in the
++// 2026-09-09 hearing-stack evaluation.
++//
++// A correct equivalent (crispasr_json_escape) already exists in
++// examples/cli/crispasr_output.cpp and is used properly there -- kept as
++// a self-contained duplicate here rather than pulling in that header,
++// since ws_stream.cpp is also compiled standalone into the leaner
++// examples/server `crispasr-server` target, which doesn't link
++// crispasr_output.cpp.
++static std::string json_escape(const char* s) {
++    std::string out;
++    out.reserve(strlen(s) + 16);
++    for (const char* p = s; *p; ++p) {
++        unsigned char c = (unsigned char)*p;
++        switch (c) {
++            case '"':  out += "\\\""; break;
++            case '\\': out += "\\\\"; break;
++            case '\b': out += "\\b";  break;
++            case '\f': out += "\\f";  break;
++            case '\n': out += "\\n";  break;
++            case '\r': out += "\\r";  break;
++            case '\t': out += "\\t";  break;
++            default:
++                if (c < 0x20) {
++                    char buf[8];
++                    snprintf(buf, sizeof(buf), "\\u%04x", c);
++                    out += buf;
++                } else {
++                    out += (char)c;
++                }
++        }
++    }
++    return out;
++}
++
+ // Read one WebSocket frame. Returns payload length, -1 on error/close.
+ // Handles masking. Stores opcode in *opcode_out.
+ static int ws_read_frame(socket_t fd, std::vector<uint8_t>& payload, uint8_t* opcode_out) {
+@@ -276,9 +355,34 @@ static void ws_handle_connection(socket_t client_fd) {
+         return;
+     }
+ 
++    // Pre-warm (nothuman#94 feasibility check, 2026-09-09): a session's
++    // FIRST decode call pays a one-time GPU/kernel warm-up cost, measured
++    // at ~10.5s -- every decode after that on the same session/stream
++    // measured ~0.57-0.58s. This is independent of the streaming window
++    // size (250ms/1500ms and 3000ms/10000ms step/length configs both paid
++    // the same ~10.5s first-call cost; shrinking the window did NOT help
++    // and measurably hurt transcript quality/completeness instead).
++    //
++    // Feed a throwaway chunk of silence through the exact same decode
++    // path right here, before the client can possibly have sent real
++    // audio, so this cost is paid during session/stream setup -- which in
++    // production happens during LiveKit room join, before a person starts
++    // talking -- instead of appearing as a mysterious multi-second delay
++    // before the very first partial of a fresh conversation.
++    {
++        const int warmup_samples = (16000 * 3000) / 1000; // step_ms worth, matches the call above
++        std::vector<float> silence(warmup_samples, 0.0f);
++        crispasr_stream_feed(stream, silence.data(), (int)silence.size());
++        char discard_buf[8192] = {};
++        double discard_t0 = 0, discard_t1 = 0;
++        long long discard_counter = 0;
++        crispasr_stream_get_text(stream, discard_buf, sizeof(discard_buf), &discard_t0, &discard_t1,
++                                  &discard_counter);
++    }
++
+     ws_send_text(client_fd, "{\"status\":\"ready\"}");
+ 
+-    // 4. Frame loop: binary = PCM, text = control, close = bye
++    // 4. Frame loop: binary = PCM, text = control, ping = keepalive, close = bye
+     std::vector<uint8_t> payload;
+     int64_t last_counter = -1;
+     while (g_ws_running.load()) {
+@@ -288,6 +392,11 @@ static void ws_handle_connection(socket_t client_fd) {
+ 
+         if (opcode == 0x08) break; // close
+ 
++        if (opcode == 0x09) { // ping -- must pong or standards-compliant
++            ws_send_pong(client_fd, payload); // clients time out the session (see ws_send_pong)
++            continue;
++        }
++
+         if (opcode == 0x02 && len > 0) { // binary = PCM float32
+             int n_samples = len / (int)sizeof(float);
+             if (n_samples > 0) {
+@@ -300,12 +409,10 @@ static void ws_handle_connection(socket_t client_fd) {
+                     crispasr_stream_get_text(stream, text_buf, sizeof(text_buf), &t0, &t1, &counter);
+                     if (counter != last_counter) {
+                         last_counter = counter;
+-                        char json_buf[8320];
+-                        snprintf(json_buf, sizeof(json_buf),
+-                                 "{\"text\":\"%s\",\"t0\":%.3f,\"t1\":%.3f,\"counter\":%lld}",
+-                                 text_buf, t0, t1, counter);
+-                        // Escape quotes in text for valid JSON
+-                        std::string json_str(json_buf);
++                        char meta_buf[128];
++                        snprintf(meta_buf, sizeof(meta_buf),
++                                 "\",\"t0\":%.3f,\"t1\":%.3f,\"counter\":%lld}", t0, t1, counter);
++                        std::string json_str = "{\"text\":\"" + json_escape(text_buf) + meta_buf;
+                         if (!ws_send_text(client_fd, json_str)) break;
+                     }
+                 }
+@@ -320,11 +427,11 @@ static void ws_handle_connection(socket_t client_fd) {
+                 double t0 = 0, t1 = 0;
+                 long long counter = 0;
+                 crispasr_stream_get_text(stream, text_buf, sizeof(text_buf), &t0, &t1, &counter);
+-                char json_buf[8320];
+-                snprintf(json_buf, sizeof(json_buf),
+-                         "{\"text\":\"%s\",\"t0\":%.3f,\"t1\":%.3f,\"counter\":%lld,\"final\":true}",
+-                         text_buf, t0, t1, counter);
+-                ws_send_text(client_fd, json_buf);
++                char meta_buf[128];
++                snprintf(meta_buf, sizeof(meta_buf),
++                         "\",\"t0\":%.3f,\"t1\":%.3f,\"counter\":%lld,\"final\":true}", t0, t1, counter);
++                std::string json_str = "{\"text\":\"" + json_escape(text_buf) + meta_buf;
++                ws_send_text(client_fd, json_str);
+             }
+         }
+     }
+diff --git a/src/core/spectral_diarize.cpp b/src/core/spectral_diarize.cpp
+index c73e8e3..d88c25a 100644
+--- a/src/core/spectral_diarize.cpp
++++ b/src/core/spectral_diarize.cpp
+@@ -920,7 +920,42 @@ SpeakerEstimate estimate_speakers(const float* x, int n, int d, int min_k, int m
+         return est;
+     }
+     if (n < 4) {
+-        est.reason = "too_few_samples";
++        // The PCA+GMM/BIC estimation below needs real sample statistics and
++        // is fundamentally underdetermined below 4 points. Unconditionally
++        // returning k=min_k here recreates exactly the "the cap decides the
++        // answer" failure #326 fixed above, just at the opposite extreme --
++        // too few samples always collapsed to k=1 regardless of how
++        // dissimilar the voices actually were. Adversarially confirmed
++        // 2026-09-09 (flight-deck
++        // sessions/2026-09-09-crispasr-hearing-stack-adversarial-test.md):
++        // two genuinely distinct speakers (independently verified cosine
++        // similarity -0.07 via direct --enroll-speaker embeddings) collapsed
++        // to k=1 purely because n_emb was 2, not from genuine acoustic
++        // ambiguity -- CRISPASR_DIARIZE_DEBUG showed "too_few_samples,
++        // cos_p10=0.0000" (never even computed).
++        //
++        // Below 4 samples there isn't enough data for PCA/GMM/BIC, but a
++        // direct pairwise-cosine check is still cheap and meaningful: reuse
++        // the same 0.5 TitaNet-Large cosine rule of thumb the
++        // explicit-threshold path already uses
++        // (crispasr_speaker_cluster.h/tiron_link.h) as a max-linkage vote.
++        // For n=2 this is exact (only one pair exists). For n=3 it can only
++        // detect "more than one speaker present" and hands the spectral
++        // path k=2, which may under-count true 3-way splits -- a real but
++        // narrower limitation than the previous unconditional k=1, not
++        // fully resolved here.
++        std::vector<float> sim = cosine_similarity(x, n, d);
++        float min_pair_sim = 1.0f;
++        for (int i = 0; i < n; i++)
++            for (int j = i + 1; j < n; j++)
++                min_pair_sim = std::min(min_pair_sim, sim[(size_t)i * n + j]);
++        est.cosine_sim_p10 = min_pair_sim; // reused field, visible via CRISPASR_DIARIZE_DEBUG
++        if (min_pair_sim < 0.5f) {
++            est.reason = "too_few_samples_threshold_fallback";
++            est.best_k = std::min({n, max_k, std::max(2, est.min_k_used)});
++        } else {
++            est.reason = "too_few_samples";
++        }
+         return est;
+     }
+ 
+diff --git a/src/crispasr.cpp b/src/crispasr.cpp
+index aa7cc1e..c83aae7 100644
+--- a/src/crispasr.cpp
++++ b/src/crispasr.cpp
+@@ -8691,14 +8691,46 @@ int whisper_full_with_state(struct whisper_context* ctx, struct whisper_state* s
+                 }
+             }
+ 
+-            // ref: https://github.com/CrispStrobe/CrispASR/pull/2629
++            // ref: https://github.com/ggml-org/whisper.cpp/pull/2629 (upstream; the
++            // CrispStrobe/CrispASR URL previously here 404s -- this logic is
++            // inherited from whisper.cpp itself, not CrispASR-specific).
++            //
++            // #2629 treats a single trailing (unpaired) timestamp as "confirmed
++            // silence to the end of this window" and skips the rest of the chunk,
++            // to stop whisper hallucinating repeated/fabricated text into real
++            // silence. That assumption is unsafe: the same token pattern also
++            // fires when a *different speaker's* voice starts right after a pause
++            // and the model can't confidently continue decoding within this pass
++            // -- that is real, transcribable content, not silence, and skipping
++            // the whole window silently drops it. Adversarially confirmed
++            // 2026-09-09 (flight-deck
++            // sessions/2026-09-09-crispasr-hearing-stack-adversarial-test.md):
++            // reproduces with no diarize flag, reproduces with --vad on, does NOT
++            // reproduce when the same speaker continues across the same gap.
++            //
++            // Fix: only take the full-chunk skip when the no-speech signal
++            // (is_no_speech, computed above from no_speech_prob) actually agrees
++            // it's silence. Otherwise advance only to the trailing timestamp's
++            // position, so the next window gets a real, fresh decode attempt at
++            // whatever comes after it instead of the whole thing being discarded.
+             const bool single_timestamp_ending = tokens_cur.size() > 1 &&
+                                                  tokens_cur[tokens_cur.size() - 2].id < whisper_token_beg(ctx) &&
+                                                  tokens_cur[tokens_cur.size() - 1].id > whisper_token_beg(ctx) &&
+                                                  ctx->vocab.is_timestamp(tokens_cur[tokens_cur.size() - 1].id);
+             if (single_timestamp_ending) {
+-                CRISPASR_LOG_DEBUG("single timestamp ending - skip entire chunk\n");
+-                seek_delta = std::min(seek_end - seek, CRISPASR_CHUNK_SIZE * 100);
++                if (is_no_speech) {
++                    CRISPASR_LOG_DEBUG(
++                        "single timestamp ending + confirmed no-speech (no_speech_prob=%.3f) - skip entire chunk\n",
++                        state->no_speech_prob);
++                    seek_delta = std::min(seek_end - seek, CRISPASR_CHUNK_SIZE * 100);
++                } else {
++                    const auto t1 = seek + 2 * (tokens_cur[tokens_cur.size() - 1].tid - whisper_token_beg(ctx));
++                    CRISPASR_LOG_DEBUG(
++                        "single timestamp ending but no_speech_prob=%.3f is below threshold - advancing only to "
++                        "trailing timestamp (t1=%d) instead of skipping the chunk\n",
++                        state->no_speech_prob, t1);
++                    seek_delta = std::max((decltype(seek_delta))1, t1 - seek);
++                }
+             }
+ 
+             // Tiron (#295): fixed non-overlapping 30 s windows (the harness decodes

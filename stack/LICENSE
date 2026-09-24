@@ -1,0 +1,5 @@
+MuseTalk's upstream code is MIT-licensed. This repository contains only the
+Volta integration and local performance patches; retain the upstream license
+and third-party model/component notices when redistributing the image or
+weights.
+

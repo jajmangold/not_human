@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volta Live Portrait</title><link rel="icon" href="data:,"/><link rel="stylesheet" href="/static/style.css?v=ios2">
+</head><body><main class="shell">
+  <section class="hero"><p class="eyebrow">QWEN3.8 27B / KOKORO / MUSETALK</p><h1>A portrait that answers live.</h1><p class="lede">Upload a face and ask a question. Qwen3.8 streams the answer into Kokoro speech while MuseTalk drives one continuous webcam-style feed.</p><p><a class="back-link" href="/playground">Open the Kokoro playground →</a></p></section>
+  <section class="stage card"><canvas id="live-canvas" role="img" aria-label="Live animated portrait"></canvas><video id="mocap-camera" autoplay muted playsinline aria-hidden="true"></video><div class="live-badge"><span></span> LIVE</div><p id="stream-status" class="status">Choose a portrait to begin.</p><p id="affect-status" class="status controller-status">Reaction controller waiting for speech.</p></section>
+  <form id="live-form" class="card">
+    <label>Portrait <input id="portrait" name="portrait" type="file" accept="image/png,image/jpeg,image/webp" required></label>
+    <label>Ask Qwen <textarea id="prompt" name="prompt" rows="4" maxlength="8000" placeholder="Upload a portrait first; ask when it comes alive." required disabled></textarea></label>
+    <div class="controls"><label>Voice <select id="voice" name="voice" disabled></select></label><label>Speed <input id="speed" name="speed" type="number" min="0.5" max="2" step="0.05" value="1" disabled></label></div>
+    <div class="mocap-controls"><button id="mocap-toggle" class="secondary" type="button" aria-pressed="false">Enable webcam mocap</button><p id="mocap-status" class="status">Webcam mocap starts automatically after upload. Pose stays in this browser.</p></div>
+    <button id="go-live" type="submit" disabled>Speak</button><p id="form-status" class="status" role="status">Upload a portrait; it will come alive before you ask anything.</p>
+  </form>
+  <section class="card transcript"><p class="eyebrow">STREAMING RESPONSE</p><p id="answer">Qwen’s answer will appear here as it speaks.</p></section>
+  <details id="motion-inspector" class="card motion-inspector">
+    <summary>Motion values and feedback</summary>
+    <p class="status">Open this after a run to copy the exact ALP-style controls, MiniLM reaction plan, timing events, upper-body values, and MediaPipe feedback.</p>
+    <div class="inspector-actions"><button id="copy-motion-values" class="secondary" type="button">Copy values</button><button id="download-motion-values" class="secondary" type="button">Download JSON</button><span id="motion-values-status" class="status" role="status"></span></div>
+    <pre id="motion-values" aria-live="polite">Waiting for a portrait…</pre>
+  </details>
+</main><script src="/static/app.js?v=upperbody13"></script></body></html>
