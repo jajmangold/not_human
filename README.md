@@ -174,6 +174,6 @@ because their sources are real people or untraceable ([`KNOWN_ISSUES`](docs/KNOW
 MIT for the code written here ([`LICENSE`](LICENSE)). It does not cover the third-party code,
 models and datasets this depends on, and some of those are not permissive. Checked against
 upstream: two services pull in AGPL-3.0 `ultralytics`, the LivePortrait path loads
-non-commercial-research InsightFace models and an unlicensed ComfyUI node, and one VLM family uses
+non-commercial-research InsightFace models and a ComfyUI node with no stated license, and one VLM family uses
 a non-OSS license. The license of the Advanced LivePortrait node is unknown to us (upstream states none). The full
 table is in [`NOTICE`](NOTICE); the caveats are in [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md).
