@@ -103,6 +103,72 @@ round trip in `media/` was run inside a CrispASR container image for that reason
 
 ## Media
 
+**Included** ([`media/`](../media/)):
+
+- Four Kokoro preset-voice lines and their STT round-trip scores. Provenance by construction
+  (scripted text, named preset voice, hashed model). The earlier playground/voice-lab WAVs were
+  *not* used: that path mixes preset, clone and convert modes with no per-file record.
+- 13 silent expression clips of three portraits, and preview GIFs. **Provenance is an attestation:**
+  the repository owner stated on 2026-09-24 that the three portraits are AI-generated. Nothing on
+  disk records how they were made, and one of the three is described in the original session notes
+  as a "stock-style photo". If that attestation is wrong for any of them, remove
+  `media/video/expressions/portrait-*` for that portrait and its preview GIF.
+- One 2-second audio-to-video sample, illustrating [notebook 04](lab-notebook/04-audio-to-video-ltx.md).
+  It does not show working lip sync.
+
+**Held back:**
+
+| candidate | reason |
+|---|---|
+| expression clips of the other portrait identities | real people or personal photographs (including family photos) |
+| `cartoon_talk` | heavily degraded, blurry render |
+| `idol_final_keep` and the `idol_*` series | need the license-gated SMPL-X body model, which is not included |
+| `greenman_talk15_tight`, `farmer_song_horse`, `pastor_altar_final` | photoreal faces whose source images could not be traced; can be added on the owner's attestation |
+
+No lip-synced *speech* video is included: the MuseTalk speech renders on disk belong to identities
+that could not be cleared, and re-rendering needs the resident stack, which was not run for this
+release.
+
+## Harness portability
+
+`speech/eval/` scripts read `CRISPASR_BIN`, `CRISPASR_MODEL`, `CRISPASR_GPU` and
+`CRISPASR_MODEL_DIR`. They were made configurable during release prep: an earlier commit still
+hardcoded the original scratch paths and GPU index. `gpu_stream_test.py` is Docker-specific and
+kept as historical evidence only. The CLI binary needs CUDA runtime libraries on the host; the
+round trip in `media/` was run inside a CrispASR container image for that reason.
+
+## Not done
+
+- **CrispASR patches are not upstreamed** and have no native regression tests.
+- **The crosstalk separation gate is documented but not implemented**; separation is wired into
+  nothing.
+- **Speech-separation** is fixed at two sources.
+- **Only three portrait identities** were used for controllability measurement; interactions
+  between simultaneously-active controls are recorded but not analysed.
+- **OCR correctness was never verified**; only latency was measured.
+- **The `spec/` adapters and compositor were never built**; the running stack does not use the
+  contracts.
+- **Hardware assumptions.** Compose defaults to GPU index 0 for every service; the original
+  deployment spread services over ~10 specific cards. On a single GPU you will hit the
+  serialization and VRAM limits described in the notebook. All target architectures are sm_70.
+
+## Licensing (see NOTICE, checked against upstream on 2026-09-24)
+
+- **Two services pull in `ultralytics` (AGPL-3.0):** `stack/vision` and `stack/advanced_live_portrait`.
+  Kept and labelled, not swapped ([vision notice](../stack/vision/AGPL_NOTICE.md)).
+- **The ALP path is research-use-only:** the node has no license, and it loads InsightFace's
+  `buffalo_l` models (non-commercial research only). See
+  [its notice](../stack/advanced_live_portrait/LICENSE_NOTICE.md). Unresolved until the authors
+  are asked.
+- **Only the `crispasr-stt` and `lfm2vl` images are publishable**; the ALP and vision images are not.
+- LFM2.5-VL uses the non-OSS `lfm1.0` license. ESC-50 is non-commercial. The MIT impulse-response
+  dataset states no license.
+- IDOL / SMPL-X are not included and are license-gated.
+- The copyright line in `LICENSE` names the GitHub account (`jajmangold`). Replace it with a legal
+  name if you want one before publication.
+
+## Media
+
 **Included:** [`media/audio/`](../media/audio/): four Kokoro preset-voice lines and their STT
 round-trip scores. Provenance by construction (scripted text, named preset voice, hashed model).
 The earlier playground/voice-lab WAVs were *not* used: that path mixes preset, clone and convert

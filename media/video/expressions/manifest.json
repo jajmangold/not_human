@@ -1,0 +1,162 @@
+{
+ "provenance": "Rendered by the ALP expression bank (stack/advanced_live_portrait) from portrait images the repository owner attests are AI-generated (not real people, not licensed stock). Silent expression renders, not speech. Source portraits are not included.",
+ "attested_by": "repository owner, 2026-09-24",
+ "clips": [
+  {
+   "file": "portrait-C__kiss.mp4",
+   "portrait": "portrait-C",
+   "expression": "kiss",
+   "bank_profile": "semantic-bank-v13",
+   "source_clip": "motion-1e4285741243ef20d9f6-semantic-bank-v13-blink-brow-fix-kiss-f28-3bba7329.mp4",
+   "resolution": "448x464",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 24
+  },
+  {
+   "file": "portrait-C__nod.mp4",
+   "portrait": "portrait-C",
+   "expression": "nod",
+   "bank_profile": "semantic-bank-v9",
+   "source_clip": "motion-1e4285741243ef20d9f6-semantic-bank-v9-nod-f24-3bba7329.mp4",
+   "resolution": "448x464",
+   "fps": "16",
+   "frames": 24,
+   "audio": false,
+   "kilobytes": 21
+  },
+  {
+   "file": "portrait-C__smile.mp4",
+   "portrait": "portrait-C",
+   "expression": "smile",
+   "bank_profile": "semantic-bank-v12",
+   "source_clip": "motion-1e4285741243ef20d9f6-semantic-bank-v12-coherence-smile-f28-3bba7329.mp4",
+   "resolution": "448x464",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 24
+  },
+  {
+   "file": "portrait-C__surprise-wink.mp4",
+   "portrait": "portrait-C",
+   "expression": "surprise-wink",
+   "bank_profile": "semantic-bank-v9",
+   "source_clip": "motion-1e4285741243ef20d9f6-semantic-bank-v9-surprise-wink-f24-3bba7329.mp4",
+   "resolution": "448x464",
+   "fps": "16",
+   "frames": 24,
+   "audio": false,
+   "kilobytes": 20
+  },
+  {
+   "file": "portrait-C__wink.mp4",
+   "portrait": "portrait-C",
+   "expression": "wink",
+   "bank_profile": "semantic-bank-v9",
+   "source_clip": "motion-1e4285741243ef20d9f6-semantic-bank-v9-wink-f24-3bba7329.mp4",
+   "resolution": "448x464",
+   "fps": "16",
+   "frames": 24,
+   "audio": false,
+   "kilobytes": 20
+  },
+  {
+   "file": "portrait-B__smile.mp4",
+   "portrait": "portrait-B",
+   "expression": "smile",
+   "bank_profile": "expressive-v2",
+   "source_clip": "motion-2bd16e230334ff04a2e6-expressive-v2-smile-f16-3bba7329.mp4",
+   "resolution": "512x400",
+   "fps": "8",
+   "frames": 16,
+   "audio": false,
+   "kilobytes": 20
+  },
+  {
+   "file": "portrait-B__idle-v1.mp4",
+   "portrait": "portrait-B",
+   "expression": "idle-v1",
+   "bank_profile": "idle-v1",
+   "source_clip": "motion-2bd16e230334ff04a2e6-idle-v1-f16-3bba7329.mp4",
+   "resolution": "512x400",
+   "fps": "8",
+   "frames": 16,
+   "audio": false,
+   "kilobytes": 19
+  },
+  {
+   "file": "portrait-B__wink.mp4",
+   "portrait": "portrait-B",
+   "expression": "wink",
+   "bank_profile": "semantic-bank-v11",
+   "source_clip": "motion-2bd16e230334ff04a2e6-semantic-bank-v11-wink-f28-3bba7329.mp4",
+   "resolution": "512x400",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 20
+  },
+  {
+   "file": "portrait-A__kiss.mp4",
+   "portrait": "portrait-A",
+   "expression": "kiss",
+   "bank_profile": "semantic-bank-v11",
+   "source_clip": "motion-d08aa48606ebf5e43a2a-semantic-bank-v11-kiss-f28-3bba7329.mp4",
+   "resolution": "416x512",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 23
+  },
+  {
+   "file": "portrait-A__nod.mp4",
+   "portrait": "portrait-A",
+   "expression": "nod",
+   "bank_profile": "semantic-bank-v11",
+   "source_clip": "motion-d08aa48606ebf5e43a2a-semantic-bank-v11-nod-f28-3bba7329.mp4",
+   "resolution": "416x512",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 24
+  },
+  {
+   "file": "portrait-A__smile.mp4",
+   "portrait": "portrait-A",
+   "expression": "smile",
+   "bank_profile": "semantic-bank-v11",
+   "source_clip": "motion-d08aa48606ebf5e43a2a-semantic-bank-v11-smile-f28-3bba7329.mp4",
+   "resolution": "416x512",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 23
+  },
+  {
+   "file": "portrait-A__surprise-wink.mp4",
+   "portrait": "portrait-A",
+   "expression": "surprise-wink",
+   "bank_profile": "semantic-bank-v11",
+   "source_clip": "motion-d08aa48606ebf5e43a2a-semantic-bank-v11-surprise-wink-f28-3bba7329.mp4",
+   "resolution": "416x512",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 24
+  },
+  {
+   "file": "portrait-A__wink.mp4",
+   "portrait": "portrait-A",
+   "expression": "wink",
+   "bank_profile": "semantic-bank-v11",
+   "source_clip": "motion-d08aa48606ebf5e43a2a-semantic-bank-v11-wink-f28-3bba7329.mp4",
+   "resolution": "416x512",
+   "fps": "16",
+   "frames": 28,
+   "audio": false,
+   "kilobytes": 24
+  }
+ ]
+}

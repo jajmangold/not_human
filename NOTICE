@@ -76,6 +76,14 @@ Datasets used by the evaluation harness (downloaded at run time, not included)
 | ESC-50 | CC BY-NC 3.0 for the dataset as a whole (ESC-10 subset: CC BY 3.0); per-clip terms vary. Non-commercial |
 | MIT environmental impulse responses (davidscripka/) | no license stated on the dataset card. UNRESOLVED |
 
+Generated media
+---------------
+media/video/ltx-a2v-dinner-scene.mp4 was generated with LTX-2.3 (LTX-2 Community License,
+January 5 2026): the licensor claims no rights in Output; Outputs must not be used in violation of
+the agreement's use policy; entities with annual revenue of $10,000,000 or more need a separate
+commercial license to use LTX-2 itself. Checked against the upstream license text. The audio in
+media/audio/ is Kokoro preset-voice speech (Apache-2.0 model).
+
 Container images
 ----------------
 Images built from stack/crispasr-stt and stack/lfm2vl contain only MIT-licensed code plus NVIDIA

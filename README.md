@@ -79,6 +79,11 @@ and wrote down the next diagnostic step instead. → [06](docs/lab-notebook/06-v
 
 ![perception latency](figures/perception_latency.png)
 
+The expression bank at work (wink · surprise-wink · kiss · smile · nod; silent renders, deliberately
+subtle): more in [`media/`](media/).
+
+![expressions](media/video/preview_portrait-A.gif)
+
 ## Layout
 
 ```
@@ -89,7 +94,7 @@ stack/         the service stack: MuseTalk resident, LivePortrait bank, MediaPip
 speech/eval/   the adversarial ASR harness and its recorded results
 spec/          typed, deterministic control contracts with tests and ADRs
 docs/lab-notebook/   six write-ups: what we tried, the numbers, what failed
-media/         four preset-voice clips + their STT round-trip scores (provenance by construction)
+media/         preset-voice audio + STT round-trip scores, expression clips, one A2V sample
 tools/         figure generation, demo-audio generator, round-trip scorer; a proof-of-concept avatar-identity prompt director (LLM draft →
                fail-closed checker → image endpoint; needs a compatible generation service)
 data/, figures/
@@ -142,10 +147,11 @@ hardware-specific. The ideas (measure leakage, count launches, soak the stream) 
 History is fresh: this was assembled from several internal repositories, and the commit history
 was not carried over. Left out on purpose: model weights and datasets; anything derived from real
 people (including personal photographs used during development); a face-swap dataset built on
-real people's photos; and an unrelated interview-assistant project. The only media is
-[`media/`](media/): audio synthesized from this repo's own scripts with preset voices. There are no
-face videos yet; the ones on hand have source portraits we can't trace, and stay out until someone
-can vouch for them.
+real people's photos; and an unrelated interview-assistant project. Media is in
+[`media/`](media/): audio synthesized from this repo's own scripts with preset voices, expression
+clips of three portraits **the owner vouches are AI-generated** (an attestation, not a record; the
+source images are not included), and one audio-to-video sample. Other face clips were held back
+because their sources are real people or untraceable ([`KNOWN_ISSUES`](docs/KNOWN_ISSUES.md#media)).
 
 ## License
 
