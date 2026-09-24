@@ -80,7 +80,9 @@ PR (ggml-org/llama.cpp#25524, LFM2 tiling parameters read from GGUF metadata), w
 Dockerfile builds from a pinned fork commit ([`stack/lfm2vl/README.md`](../../stack/lfm2vl/README.md)).
 
 The small model was **unreliable at transcript classification** (answered ARTIFACT for
-everything, including obviously real text), so MiniCPM-V stays for that one call only. A
+everything, including obviously real text), so MiniCPM-V stays for that one call only. Caution from a later check of the rebuilt image: asked to describe a bar chart, the 450M model
+produced fluent text with invented numbers. It is a fast scene-gist model, not a reader of data.
+A
 3B sibling handles a slower ~20 s scene-narration loop; it answers short prompts at the same
 latency class and describes detail the 450M one never attempts.
 

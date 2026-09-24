@@ -12,8 +12,10 @@ repo conflicts with this page, this page wins.
 | `stack/` unit tests | 111 passed, 22 skipped, 0 failed. The skips need live GPU services or fixtures |
 | `tools/make_figures.py` | regenerates all four figures from recorded data |
 | CrispASR patch | `git apply --check` succeeds against the pinned upstream commit |
-| **Docker image builds** | **not run here.** CrispASR needs ~25 min and a CUDA host; lfm2vl builds llama.cpp from a fork |
-| Live stack (`docker compose up`) | **not run here.** Assumes a multi-GPU host, see below |
+| `crispasr-stt` image | **built from the pinned upstream commit + patch (11 min), started, healthy in ~14 s, transcribed a repo clip over HTTP** |
+| `lfm2vl` image | **built, started, loaded the multimodal model without the segfault mainline has, answered an image request** (its chart description was wrong: 450M models invent numbers) |
+| Other images (MuseTalk, ALP, vision, affect, feedback, web) | **not built.** MuseTalk needs a base image that is not public; ALP and vision must not be published (see NOTICE) |
+| Live stack (`docker compose up`) | **not run here.** `docker compose config` validates; assumes a multi-GPU host, see below |
 
 The numbers in the lab notebook were measured on the original hardware at the time and come from
 recorded result files or issue threads. They were not re-measured for this release.

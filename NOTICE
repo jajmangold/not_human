@@ -87,5 +87,6 @@ media/audio/ is Kokoro preset-voice speech (Apache-2.0 model).
 Container images
 ----------------
 Images built from stack/crispasr-stt and stack/lfm2vl contain only MIT-licensed code plus NVIDIA
-CUDA runtime libraries. They are the only images this repository publishes. Images for
+CUDA runtime libraries. They are the only images this repository publishes (ghcr.io/jajmangold/not_human-crispasr-stt and
+-lfm2vl, tag 0.1.0, private). Images for
 advanced_live_portrait and vision are not published, for the reasons in items 1-3.

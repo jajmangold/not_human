@@ -117,10 +117,26 @@ python tools/make_figures.py
 ```
 
 The GPU stack is `stack/docker-compose.yml`. It needs model weights you fetch yourself, a CUDA
-host, and a lot of goodwill: the original deployment pinned seven services to specific cards, and
-**the image builds and the live stack were not re-run for this release** (the CrispASR build alone
-is ~25 minutes). To reproduce the ASR results you need a running CrispASR server; see
+host, and a lot of goodwill: the original deployment pinned seven services to specific cards.
+Two images were rebuilt from scratch for this release, started and exercised; **the rest of the
+stack and the composed system were not re-run** ([details](docs/KNOWN_ISSUES.md)). To reproduce the ASR results you need a running CrispASR server; see
 [`speech/eval/`](speech/eval/) (`CRISPASR_BIN`, and the corpus downloads itself).
+
+### Container images
+
+The two images that are safe to publish (MIT code plus NVIDIA CUDA runtime; no weights) are on
+GitHub Container Registry, private for now:
+
+```bash
+echo $GH_TOKEN | docker login ghcr.io -u <you> --password-stdin        # needs read:packages
+docker run --gpus device=0 -p 8097:8097 -v /path/to/models:/models:ro \
+  ghcr.io/jajmangold/not_human-crispasr-stt:0.1.0      # needs /models/ggml-large-v3-turbo.bin
+docker run --gpus device=0 -p 8080:8080 -v /path/to/lfm2vl:/models:ro \
+  ghcr.io/jajmangold/not_human-lfm2vl:0.1.0            # needs the LFM2.5-VL GGUF + mmproj (LFM1.0 license)
+```
+
+Or build them yourself: `docker build stack/crispasr-stt` clones upstream at a pinned commit and
+applies the patch (~11 min on 48 cores). The ALP and vision images are not published; see `NOTICE`.
 
 ## The lab notebook
 
