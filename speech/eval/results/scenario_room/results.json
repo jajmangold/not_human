@@ -1,0 +1,183 @@
+{
+  "dry_baseline": [
+    {
+      "speaker": "6930",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "1320",
+      "wer": 0.0,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur."
+    },
+    {
+      "speaker": "5639",
+      "wer": 0.0625,
+      "hyp": " Finally, the one party went off exalting, and the other was left in desolation and woe."
+    }
+  ],
+  "room_sweep": [
+    {
+      "speaker": "6930",
+      "room": "h001_Bedroom_65txts",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "room": "h003_Office_LargeBrickWalledOpenPlanOffice_56txts",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "room": "h004_LivingRoom_Large_48txts",
+      "wer": 0.25,
+      "hyp": " Concord returned to its place amidst the tents.  Thank you."
+    },
+    {
+      "speaker": "6930",
+      "room": "h007_Bathroom_Small_41txts",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "room": "h026_Gym_8txts",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "room": "h042_Hallway_ElementarySchool_4txts",
+      "wer": 0.5,
+      "hyp": " Concord returned to its place amidst the tents.  Thank you.  Thank you."
+    },
+    {
+      "speaker": "6930",
+      "room": "h044_ParkingLot_4txts",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "room": "h070_Outdoor_MITBrickAmpitheater_2txts",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "room": "h102_Stairwell_ElementraySchool_1txts",
+      "wer": 0.0,
+      "hyp": " Concord returned to its place amidst the tents."
+    },
+    {
+      "speaker": "1320",
+      "room": "h001_Bedroom_65txts",
+      "wer": 0.10526315789473684,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  Thank you."
+    },
+    {
+      "speaker": "1320",
+      "room": "h003_Office_LargeBrickWalledOpenPlanOffice_56txts",
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  her."
+    },
+    {
+      "speaker": "1320",
+      "room": "h004_LivingRoom_Large_48txts",
+      "wer": 0.21052631578947367,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  Thank you.  Thank you."
+    },
+    {
+      "speaker": "1320",
+      "room": "h007_Bathroom_Small_41txts",
+      "wer": 0.0,
+      "hyp": " notwithstanding the high resolution of hawkeye he fully comprehended all the difficulties and danger he was about to incur"
+    },
+    {
+      "speaker": "1320",
+      "room": "h026_Gym_8txts",
+      "wer": 0.21052631578947367,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  Thank you.  Thank you."
+    },
+    {
+      "speaker": "1320",
+      "room": "h042_Hallway_ElementarySchool_4txts",
+      "wer": 0.3157894736842105,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  Thank you.  Thank you. "
+    },
+    {
+      "speaker": "1320",
+      "room": "h044_ParkingLot_4txts",
+      "wer": 0.21052631578947367,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  Thank you.  Thank you."
+    },
+    {
+      "speaker": "1320",
+      "room": "h070_Outdoor_MITBrickAmpitheater_2txts",
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  you"
+    },
+    {
+      "speaker": "1320",
+      "room": "h102_Stairwell_ElementraySchool_1txts",
+      "wer": 0.21052631578947367,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to incur.  Thank you.  Thank you."
+    },
+    {
+      "speaker": "5639",
+      "room": "h001_Bedroom_65txts",
+      "wer": 0.0,
+      "hyp": " Finally, the one party went off exulting, and the other was left in desolation and woe."
+    },
+    {
+      "speaker": "5639",
+      "room": "h003_Office_LargeBrickWalledOpenPlanOffice_56txts",
+      "wer": 0.0625,
+      "hyp": " Finally, the one party went off exalting, and the other was left in desolation and woe."
+    },
+    {
+      "speaker": "5639",
+      "room": "h004_LivingRoom_Large_48txts",
+      "wer": 0.0625,
+      "hyp": " Finally, the one party went off exalting, and the other was left in desolation and woe."
+    },
+    {
+      "speaker": "5639",
+      "room": "h007_Bathroom_Small_41txts",
+      "wer": 0.0,
+      "hyp": " Finally, the one party went off exulting, and the other was left in desolation and woe."
+    },
+    {
+      "speaker": "5639",
+      "room": "h026_Gym_8txts",
+      "wer": 0.125,
+      "hyp": " Finally, the one party ran off exalting, and the other was left in desolation and woe."
+    },
+    {
+      "speaker": "5639",
+      "room": "h042_Hallway_ElementarySchool_4txts",
+      "wer": 0.25,
+      "hyp": " Finally, the one party went off exalting, and the other was left in desolation and war.  you  you"
+    },
+    {
+      "speaker": "5639",
+      "room": "h044_ParkingLot_4txts",
+      "wer": 0.0,
+      "hyp": " Finally, the one party went off exulting, and the other was left in desolation and woe."
+    },
+    {
+      "speaker": "5639",
+      "room": "h070_Outdoor_MITBrickAmpitheater_2txts",
+      "wer": 0.0,
+      "hyp": " Finally, the one party went off exulting, and the other was left in desolation and woe."
+    },
+    {
+      "speaker": "5639",
+      "room": "h102_Stairwell_ElementraySchool_1txts",
+      "wer": 0.0,
+      "hyp": " Finally, the one party went off exulting, and the other was left in desolation and woe."
+    }
+  ]
+}

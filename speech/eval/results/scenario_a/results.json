@@ -1,0 +1,390 @@
+{
+  "clean_baseline": [
+    {
+      "speaker": "6930",
+      "ref": "CONCORD RETURNED TO ITS PLACE AMIDST THE TENTS",
+      "hyp": " Concorde returned to its place amidst the tents.",
+      "wer": 0.125
+    },
+    {
+      "speaker": "1320",
+      "ref": "NOTWITHSTANDING THE HIGH RESOLUTION OF HAWKEYE HE FULLY COMPREHENDED ALL THE DIFFICULTIES AND DANGER HE WAS ABOUT TO INCUR",
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to incur.",
+      "wer": 0.05263157894736842
+    },
+    {
+      "speaker": "5639",
+      "ref": "FINALLY THE ONE PARTY WENT OFF EXULTING AND THE OTHER WAS LEFT IN DESOLATION AND WOE",
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation and will.",
+      "wer": 0.125
+    },
+    {
+      "speaker": "260",
+      "ref": "OH WON'T SHE BE SAVAGE IF I'VE KEPT HER WAITING",
+      "hyp": " Oh, won't she be savage if I've kept her waiting?",
+      "wer": 0.0
+    },
+    {
+      "speaker": "7729",
+      "ref": "THE BOGUS LEGISLATURE NUMBERED THIRTY SIX MEMBERS",
+      "hyp": " The bogus legislature numbered 36 members.",
+      "wer": 0.2857142857142857
+    },
+    {
+      "speaker": "2094",
+      "ref": "WHO TAUGHT YOU TO SCRUB A FLOOR I SHOULD LIKE TO KNOW",
+      "hyp": " Who taught you to scrub a floor I should like to know?",
+      "wer": 0.0
+    },
+    {
+      "speaker": "3575",
+      "ref": "SURELY IT MUST BE BECAUSE WE ARE IN DANGER OF LOVING EACH OTHER TOO WELL OF LOSING SIGHT OF THE CREATOR IN IDOLATRY OF THE CREATURE",
+      "hyp": " Surely it must be because we're in danger of loving each other too well,  of losing sight of the creator and idolatry of the creature.",
+      "wer": 0.11538461538461539
+    },
+    {
+      "speaker": "7127",
+      "ref": "UPON THIS MADAME DEIGNED TO TURN HER EYES LANGUISHINGLY TOWARDS THE COMTE OBSERVING",
+      "hyp": " Upon this, Madame dain turned her eyes languishingly towards the comped, observing",
+      "wer": 0.3076923076923077
+    }
+  ],
+  "snr_curve": [
+    {
+      "speaker": "6930",
+      "noise": "babble_6talker",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "babble_6talker",
+      "snr_db": 10,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "babble_6talker",
+      "snr_db": 0,
+      "wer": 1.0,
+      "hyp": " Conquoise turned with the place that would sit down."
+    },
+    {
+      "speaker": "6930",
+      "noise": "babble_6talker",
+      "snr_db": -5,
+      "wer": 1.125,
+      "hyp": " There was so cool. There's no place to go."
+    },
+    {
+      "speaker": "6930",
+      "noise": "vacuum_cleaner",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "vacuum_cleaner",
+      "snr_db": 10,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "vacuum_cleaner",
+      "snr_db": 0,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "vacuum_cleaner",
+      "snr_db": -5,
+      "wer": 0.5,
+      "hyp": " Common Core return to its place amidst its tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "engine",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "engine",
+      "snr_db": 10,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "engine",
+      "snr_db": 0,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "engine",
+      "snr_db": -5,
+      "wer": 0.375,
+      "hyp": " Concorde would turn to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "siren",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "siren",
+      "snr_db": 10,
+      "wer": 0.125,
+      "hyp": " Concorde returned to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "siren",
+      "snr_db": 0,
+      "wer": 0.25,
+      "hyp": " Concorde return to its place amidst the tents."
+    },
+    {
+      "speaker": "6930",
+      "noise": "siren",
+      "snr_db": -5,
+      "wer": 0.5,
+      "hyp": " Concorde return tweets place amidst the tents."
+    },
+    {
+      "speaker": "1320",
+      "noise": "babble_6talker",
+      "snr_db": 20,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "babble_6talker",
+      "snr_db": 10,
+      "wer": 0.10526315789473684,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties in danger he was about to en"
+    },
+    {
+      "speaker": "1320",
+      "noise": "babble_6talker",
+      "snr_db": 0,
+      "wer": 1.4736842105263157,
+      "hyp": " There was standing the very will of each act in fact.  And in a little proper way, you would all do this in order to fi"
+    },
+    {
+      "speaker": "1320",
+      "noise": "babble_6talker",
+      "snr_db": -5,
+      "wer": 1.5789473684210527,
+      "hyp": " that was a lot of the very well. I shall not have a little bit of what you don't want to do.  It's the only danger he w"
+    },
+    {
+      "speaker": "1320",
+      "noise": "vacuum_cleaner",
+      "snr_db": 20,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "vacuum_cleaner",
+      "snr_db": 10,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "vacuum_cleaner",
+      "snr_db": 0,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties in danger he was about to in"
+    },
+    {
+      "speaker": "1320",
+      "noise": "vacuum_cleaner",
+      "snr_db": -5,
+      "wer": 0.15789473684210525,
+      "hyp": " Notwithstanding the high resolution of Popeye, he fully comprehended all the difficulties and dangers he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "engine",
+      "snr_db": 20,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "engine",
+      "snr_db": 10,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "engine",
+      "snr_db": 0,
+      "wer": 0.0,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties and danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "engine",
+      "snr_db": -5,
+      "wer": 0.10526315789473684,
+      "hyp": " Notwithstanding the high resolution of Pahai, he fully comprehended all the difficulties in danger he was about to incu"
+    },
+    {
+      "speaker": "1320",
+      "noise": "siren",
+      "snr_db": 20,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "siren",
+      "snr_db": 10,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties  in danger he was about to i"
+    },
+    {
+      "speaker": "1320",
+      "noise": "siren",
+      "snr_db": 0,
+      "wer": 0.05263157894736842,
+      "hyp": " Notwithstanding the high resolution of Hawkeye, he fully comprehended all the difficulties in danger he was about to in"
+    },
+    {
+      "speaker": "1320",
+      "noise": "siren",
+      "snr_db": -5,
+      "wer": 0.10526315789473684,
+      "hyp": " Notwithstanding the high resolution of Pacai, he fully comprehended all the difficulties in danger he was about to incu"
+    },
+    {
+      "speaker": "5639",
+      "noise": "babble_6talker",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation and world."
+    },
+    {
+      "speaker": "5639",
+      "noise": "babble_6talker",
+      "snr_db": 10,
+      "wer": 0.1875,
+      "hyp": " Finally, the one party went off exalting, and the other was left in desolation."
+    },
+    {
+      "speaker": "5639",
+      "noise": "babble_6talker",
+      "snr_db": 0,
+      "wer": 0.75,
+      "hyp": " Finally, the one-star-viewer knock-in-salt-sack."
+    },
+    {
+      "speaker": "5639",
+      "noise": "babble_6talker",
+      "snr_db": -5,
+      "wer": 1.0,
+      "hyp": " [MUSIC]"
+    },
+    {
+      "speaker": "5639",
+      "noise": "vacuum_cleaner",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation and war."
+    },
+    {
+      "speaker": "5639",
+      "noise": "vacuum_cleaner",
+      "snr_db": 10,
+      "wer": 0.1875,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation in war."
+    },
+    {
+      "speaker": "5639",
+      "noise": "vacuum_cleaner",
+      "snr_db": 0,
+      "wer": 0.25,
+      "hyp": " Finally, the one party went off exalting and the other was left in isolation."
+    },
+    {
+      "speaker": "5639",
+      "noise": "vacuum_cleaner",
+      "snr_db": -5,
+      "wer": 0.3125,
+      "hyp": " Finally, the one party went off exalt and the other was left to listen to that."
+    },
+    {
+      "speaker": "5639",
+      "noise": "engine",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation and will."
+    },
+    {
+      "speaker": "5639",
+      "noise": "engine",
+      "snr_db": 10,
+      "wer": 0.125,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation and work."
+    },
+    {
+      "speaker": "5639",
+      "noise": "engine",
+      "snr_db": 0,
+      "wer": 0.1875,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation."
+    },
+    {
+      "speaker": "5639",
+      "noise": "engine",
+      "snr_db": -5,
+      "wer": 0.125,
+      "hyp": " Finally, the one party went off exulting, and the other was left in desolation."
+    },
+    {
+      "speaker": "5639",
+      "noise": "siren",
+      "snr_db": 20,
+      "wer": 0.125,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation and will."
+    },
+    {
+      "speaker": "5639",
+      "noise": "siren",
+      "snr_db": 10,
+      "wer": 0.125,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation and will."
+    },
+    {
+      "speaker": "5639",
+      "noise": "siren",
+      "snr_db": 0,
+      "wer": 0.1875,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation."
+    },
+    {
+      "speaker": "5639",
+      "noise": "siren",
+      "snr_db": -5,
+      "wer": 0.1875,
+      "hyp": " Finally, the one party went off exalting and the other was left in desolation."
+    }
+  ]
+}

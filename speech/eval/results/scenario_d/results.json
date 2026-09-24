@@ -1,0 +1,169 @@
+{
+  "D1_events": [
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " The bogus legislature.",
+      "t0": 0.0,
+      "t1": 1.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " The bogus legislature numbered 3rd.",
+      "t0": 0.0,
+      "t1": 2.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " The bogus legislature numbered 36 members.",
+      "t0": 0.0,
+      "t1": 3.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " The bogus legislature numbered 36 members. Who taught you to scrub a floor?",
+      "t0": 0.0,
+      "t1": 6.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " The bogus legislature numbered 36 members.",
+      "t0": 0.0,
+      "t1": 6.94,
+      "_recv_wall_s": 7.061129570007324
+    },
+    {
+      "type": "final",
+      "utterance_id": 1,
+      "text": " The bogus legislature numbered 36 members.",
+      "t0": 0.0,
+      "t1": 6.94,
+      "_recv_wall_s": 7.1697845458984375
+    }
+  ],
+  "D1_stderr_tail": "er_init_state: compute buffer (conv)   =   18.94 MB\nwhisper_init_state: compute buffer (encode) =   23.36 MB\nwhisper_init_state: compute buffer (cross)  =    4.92 MB\nwhisper_init_state: compute buffer (decode) =   97.55 MB\ncrispasr[stream]: reading raw s16le 16kHz mono PCM from stdin\ncrispasr[stream]: step=1000ms length=10000ms keep=200ms\ncrispasr[stream]: pipe audio in, e.g.:\n  ffmpeg -i input.wav -f s16le -ar 16000 -ac 1 - | crispasr --stream -m model.gguf\n\nwhisper_full_with_state: auto-detected language: zh (p = 0.010006)\nwhisper_full_with_state: auto-detected language: nl (p = 0.010006)\nwhisper_full_with_state: auto-detected language: az (p = 0.010003)\nwhisper_full_with_state: auto-detected language: az (p = 0.010004)\nwhisper_full_with_state: auto-detected language: zh (p = 0.010004)\nwhisper_full_with_state: auto-detected language: my (p = 0.010003)\nwhisper_full_with_state: auto-detected language: my (p = 0.010003)\nwhisper_full_with_state: auto-detected language: my (p = 0.010003)\n",
+  "D2_events": [
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Truly it must be",
+      "t0": 0.0,
+      "t1": 1.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger.",
+      "t0": 0.0,
+      "t1": 2.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other.",
+      "t0": 0.0,
+      "t1": 3.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well.",
+      "t0": 0.0,
+      "t1": 4.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well. of losing sight of your life.",
+      "t0": 0.0,
+      "t1": 5.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well. Of losing sight of the creator and idea of",
+      "t0": 0.0,
+      "t1": 6.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well. Of losing sight of the creator and idolatry of the pon",
+      "t0": 0.0,
+      "t1": 7.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well. Of losing sight of the creator in idolatry of the ponches.",
+      "t0": 0.0,
+      "t1": 8.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well. Of losing sight of the creator in idolatry of the princess. The poneness Madame Dane to turn her.",
+      "t0": 0.0,
+      "t1": 9.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well. Of losing sight of the creator in idolatry of the princess. Upon this, Madame, Dane to turn her eyes, lame.",
+      "t0": 0.0,
+      "t1": 10.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " because we're in danger of loving each other too well, of losing sight of the creator and idolatry of the country. The poneness Madame Dane to turn her eyes languishingly toward",
+      "t0": 0.0,
+      "t1": 11.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " of loving each other too well, of losing sight of the creator and idolatry of the ponnes medam dain to turn her eyes languishingly towards the comped.",
+      "t0": 0.0,
+      "t1": 12.0,
+      "_recv_wall_s": 0.0
+    },
+    {
+      "type": "partial",
+      "utterance_id": 1,
+      "text": " other too well of losing sight of the creator and idolatry of the country. Upon this, Madame Dane to turn her eyes languishingly towards the comped, observing",
+      "t0": 0.0,
+      "t1": 12.735,
+      "_recv_wall_s": 12.976577997207642
+    },
+    {
+      "type": "final",
+      "utterance_id": 1,
+      "text": " Surely it must be because we're in danger of loving each other too well. Of losing sight of the creator in idolatry of the purchase. Upon this madam, Dane to turn her eyes languishingly towards the comped, observing...",
+      "t0": 0.0,
+      "t1": 12.735,
+      "_recv_wall_s": 13.28717851638794
+    }
+  ],
+  "D2_stderr_tail": "-f s16le -ar 16000 -ac 1 - | crispasr --stream -m model.gguf\n\nwhisper_full_with_state: auto-detected language: nl (p = 0.010003)\nwhisper_full_with_state: auto-detected language: nl (p = 0.010006)\nwhisper_full_with_state: auto-detected language: nl (p = 0.010003)\nwhisper_full_with_state: auto-detected language: az (p = 0.010007)\nwhisper_full_with_state: auto-detected language: my (p = 0.010003)\nwhisper_full_with_state: auto-detected language: my (p = 0.010003)\nwhisper_full_with_state: auto-detected language: as (p = 0.010003)\nwhisper_full_with_state: auto-detected language: my (p = 0.010003)\nwhisper_full_with_state: auto-detected language: nl (p = 0.010006)\nwhisper_full_with_state: auto-detected language: jw (p = 0.010003)\nwhisper_full_with_state: auto-detected language: gu (p = 0.010007)\nwhisper_full_with_state: auto-detected language: tg (p = 0.010004)\nwhisper_full_with_state: auto-detected language: tg (p = 0.010006)\nwhisper_full_with_state: auto-detected language: gu (p = 0.010003)\n",
+  "D2_interrupt_at_s": 6.095
+}

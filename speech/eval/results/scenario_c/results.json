@@ -1,0 +1,50 @@
+[
+  {
+    "overlap_pct": 0,
+    "n_segments": 2,
+    "n_speakers_found": 1,
+    "wer_vs_A": 2.0,
+    "wer_vs_B": 0.5,
+    "hyp": " The bogus legislature numbered 36 members.  \"Who taught you to scrub a floor?\" I should like to know."
+  },
+  {
+    "overlap_pct": 10,
+    "n_segments": 2,
+    "n_speakers_found": 1,
+    "wer_vs_A": 2.0,
+    "wer_vs_B": 0.5,
+    "hyp": " The bogus legislature numbered 36 members.  Who taught you to scrub a floor? I should like to know."
+  },
+  {
+    "overlap_pct": 30,
+    "n_segments": 2,
+    "n_speakers_found": 1,
+    "wer_vs_A": 2.0,
+    "wer_vs_B": 0.5833333333333334,
+    "hyp": " The bogus legislature numbered 36 members.  You taught you to scrub a floor. I should like to know."
+  },
+  {
+    "overlap_pct": 50,
+    "n_segments": 2,
+    "n_speakers_found": 1,
+    "wer_vs_A": 2.0,
+    "wer_vs_B": 0.5833333333333334,
+    "hyp": " The bogus legislature numbered 36 members.  You taught you to scrub a floor. I should like to know."
+  },
+  {
+    "overlap_pct": 80,
+    "n_segments": 1,
+    "n_speakers_found": 1,
+    "wer_vs_A": 0.42857142857142855,
+    "wer_vs_B": 1.0,
+    "hyp": " The bogus legislature number 36 members."
+  },
+  {
+    "overlap_pct": 100,
+    "n_segments": 1,
+    "n_speakers_found": 1,
+    "wer_vs_A": 1.0,
+    "wer_vs_B": 1.0,
+    "hyp": " The bullet is led to slightly over 36 members."
+  }
+]

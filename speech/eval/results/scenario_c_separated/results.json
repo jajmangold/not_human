@@ -1,0 +1,98 @@
+[
+  {
+    "overlap_pct": 0,
+    "orig_wer_vs_A": 2.0,
+    "orig_wer_vs_B": 0.5,
+    "orig_best_wer": 0.5,
+    "orig_hyp": " The bogus legislature numbered 36 members.  Who taught you to scrub a floor, I should like to know.",
+    "sep_texts": [
+      " The oldest leg is...  Who taught you to scrub a floor, I should like to know.",
+      " The Bogus Legislature numbered 36 members."
+    ],
+    "sep_best_wers": [
+      0.3333333333333333,
+      0.2857142857142857
+    ],
+    "sep_mean_best_wer": 0.30952380952380953
+  },
+  {
+    "overlap_pct": 10,
+    "orig_wer_vs_A": 2.0,
+    "orig_wer_vs_B": 0.5,
+    "orig_best_wer": 0.5,
+    "orig_hyp": " The bogus legislature numbered 36 members.  Who taught you to scrub a floor? I should like to know.",
+    "sep_texts": [
+      " the boat is like it who taught you to scrub a floor i should like to know",
+      " The Bogus Legislature numbered 36 members."
+    ],
+    "sep_best_wers": [
+      0.4166666666666667,
+      0.2857142857142857
+    ],
+    "sep_mean_best_wer": 0.35119047619047616
+  },
+  {
+    "overlap_pct": 30,
+    "orig_wer_vs_A": 2.142857142857143,
+    "orig_wer_vs_B": 0.5833333333333334,
+    "orig_best_wer": 0.5833333333333334,
+    "orig_hyp": " The bogus legislature numbered 36 members.  Who taught you to scrub a floor, I should like to know.  you.",
+    "sep_texts": [
+      " The oldest library.  Who taught you to scrub a floor?  I should like to know.  So,",
+      " The bogus legislature numbered 36 members."
+    ],
+    "sep_best_wers": [
+      0.3333333333333333,
+      0.2857142857142857
+    ],
+    "sep_mean_best_wer": 0.30952380952380953
+  },
+  {
+    "overlap_pct": 50,
+    "orig_wer_vs_A": 2.0,
+    "orig_wer_vs_B": 0.5,
+    "orig_best_wer": 0.5,
+    "orig_hyp": " The bogus legislature numbered 36 members.  Who taught you to scrub a floor, I should like to know?",
+    "sep_texts": [
+      " The oldest library?  Who taught you to scrub a floor, I should like to know.",
+      " The Bogus Legislature numbered 36 members."
+    ],
+    "sep_best_wers": [
+      0.25,
+      0.2857142857142857
+    ],
+    "sep_mean_best_wer": 0.26785714285714285
+  },
+  {
+    "overlap_pct": 80,
+    "orig_wer_vs_A": 0.2857142857142857,
+    "orig_wer_vs_B": 1.0,
+    "orig_best_wer": 0.2857142857142857,
+    "orig_hyp": " The bogus legislature numbered 36 members.",
+    "sep_texts": [
+      " Who taught you to scrub a floor? I should like to know.",
+      " The Bogus Legislature numbered 36 members."
+    ],
+    "sep_best_wers": [
+      0.0,
+      0.2857142857142857
+    ],
+    "sep_mean_best_wer": 0.14285714285714285
+  },
+  {
+    "overlap_pct": 100,
+    "orig_wer_vs_A": 1.7142857142857142,
+    "orig_wer_vs_B": 0.0,
+    "orig_best_wer": 0.0,
+    "orig_hyp": " \"Who taught you to scrub a floor?\" I should like to know.",
+    "sep_texts": [
+      " Who taught you to scrub a floor, I should like to know.",
+      " The Bogus Legislature numbered 36 members."
+    ],
+    "sep_best_wers": [
+      0.0,
+      0.2857142857142857
+    ],
+    "sep_mean_best_wer": 0.14285714285714285
+  }
+]
