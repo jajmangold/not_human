@@ -1,0 +1,20 @@
+# secrets / local config
+.env
+*.key
+# weights and heavy artifacts are never committed
+models/
+runtime/
+runtime-data/
+*.gguf
+*.safetensors
+*.onnx
+*.pth
+*.ckpt
+*.bin
+# python / node
+__pycache__/
+.venv/
+node_modules/
+.pytest_cache/
+# eval corpus is downloaded at run time
+speech/eval/corpus/

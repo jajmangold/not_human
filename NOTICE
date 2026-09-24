@@ -1,0 +1,55 @@
+not_human — third-party notices
+================================
+
+The MIT license in LICENSE covers the code written for this repository only. It
+does NOT relicense anything below, and it does not cover model weights, datasets
+or generated media. No weights or datasets are included in this repository.
+
+"Recorded" = the license was written down in the sources this repo was built
+from. "General knowledge" = not verified against the upstream at the pinned
+revision; check before you redistribute or use commercially.
+
+Code and services
+-----------------
+MuseTalk 1.5 ............ MIT (recorded: stack/LICENSE). This repo has only the
+                          integration and performance patches. Retain upstream
+                          notices and the notices of its bundled models.
+CrispASR ................ built from upstream at a pinned commit plus the patch in
+                          stack/crispasr-stt/patches/. Upstream tree carries the
+                          ggml/whisper.cpp MIT license (recorded: LICENSE at that
+                          commit). The patch is MIT-compatible; it is derived work.
+llama.cpp ............... MIT (general knowledge). The lfm2vl image builds from a
+                          fork commit carrying an OPEN, UNMERGED upstream PR
+                          (ggml-org/llama.cpp#25524). See stack/lfm2vl/README.md.
+AdvancedLivePortrait .... upstream had NO checked-in LICENSE at the pinned revision
+                          (recorded: stack/README.md). The LivePortrait lineage is
+                          understood to use face-analysis components with
+                          non-commercial terms (general knowledge). UNRESOLVED:
+                          treat as research-use-only until checked.
+MediaPipe ............... Apache-2.0 (recorded: stack/docs/UPPER-BODY.md).
+LiveKit Agents .......... Apache-2.0 (general knowledge).
+ultralytics / YOLO26n ... AGPL-3.0 (general knowledge). stack/vision pins
+                          ultralytics==8.4.145. Distributing or network-serving
+                          that service carries AGPL obligations that conflict with
+                          treating it as MIT. Swap the detector, or treat
+                          stack/vision as AGPL.
+SepFormer (speechbrain) . Apache-2.0 (general knowledge).
+
+Models (not included; fetched by you)
+-------------------------------------
+Whisper large-v3-turbo ........ MIT (general knowledge)
+Kokoro-82M .................... Apache-2.0 (general knowledge)
+MiniCPM-V-4.6 ................. Apache-2.0 (recorded: stack/docs/VISION.md)
+LFM2.5-VL-450M / 3B ........... "LFM1.0 license" (recorded: stack/docs/VISION.md);
+                                read it, it is not a standard OSS license.
+MiniLM-L6-v2 .................. Apache-2.0 (general knowledge)
+IDOL / SMPL-X ................. NOT INCLUDED. IDOL had no root license file at the
+                                pinned revision; SMPL-X is license-gated and
+                                non-commercial by default (recorded:
+                                stack/docs/UPPER-BODY.md).
+
+Datasets used by the evaluation harness (downloaded at run time)
+-----------------------------------------------------------------
+LibriSpeech test-clean ........ CC BY 4.0 (general knowledge)
+ESC-50 ........................ CC BY-NC 3.0 (general knowledge): non-commercial
+MIT environmental IR survey ... license not checked
