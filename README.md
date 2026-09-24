@@ -175,5 +175,5 @@ MIT for the code written here ([`LICENSE`](LICENSE)). It does not cover the thir
 models and datasets this depends on, and some of those are not permissive. Checked against
 upstream: two services pull in AGPL-3.0 `ultralytics`, the LivePortrait path loads
 non-commercial-research InsightFace models and an unlicensed ComfyUI node, and one VLM family uses
-a non-OSS license. **Treat the vision and expression services as research-use-only.** The full
+a non-OSS license. The license of the Advanced LivePortrait node is unknown to us (upstream states none). The full
 table is in [`NOTICE`](NOTICE); the caveats are in [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md).

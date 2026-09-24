@@ -1,0 +1,25 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: astral-sh/setup-uv@v5
+      - name: spec contracts (190 tests, CPU only)
+        run: |
+          pip install pytest
+          cd spec && PYTHONPATH=src python -m pytest -q tests
+      - name: service-stack unit tests (GPU-dependent tests skip)
+        run: |
+          pip install pytest numpy
+          cd stack && python -m pytest -q tests
+      - name: voice agent (deps from the lockfile)
+        run: |
+          cd voice-agent && uv sync --frozen && uv run python -m pytest -q tests
+      - name: figures regenerate from recorded data
+        run: |
+          pip install matplotlib numpy
+          python tools/make_figures.py

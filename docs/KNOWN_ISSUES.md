@@ -14,7 +14,7 @@ repo conflicts with this page, this page wins.
 | CrispASR patch | `git apply --check` succeeds against the pinned upstream commit |
 | `crispasr-stt` image | **built from the pinned upstream commit + patch (11 min), started, healthy in ~14 s, transcribed a repo clip over HTTP** |
 | `lfm2vl` image | **built, started, loaded the multimodal model without the segfault mainline has, answered an image request** (its chart description was wrong: 450M models invent numbers) |
-| Other images (MuseTalk, ALP, vision, affect, feedback, web) | **not built.** MuseTalk needs a base image that is not public; ALP and vision must not be published (see NOTICE) |
+| Other images (MuseTalk, ALP, vision, affect, feedback, web) | **not built or published.** MuseTalk needs a base image that is not public |
 | Live stack (`docker compose up`) | **not run here.** `docker compose config` validates; assumes a multi-GPU host, see below |
 
 The numbers in the lab notebook were measured on the original hardware at the time and come from
@@ -88,20 +88,24 @@ round trip in `media/` was run inside a CrispASR container image for that reason
   deployment spread services over ~10 specific cards. On a single GPU you will hit the
   serialization and VRAM limits described in the notebook. All target architectures are sm_70.
 
-## Licensing (see NOTICE, checked against upstream on 2026-09-24)
+## Licensing (see NOTICE)
 
-- **Two services pull in `ultralytics` (AGPL-3.0):** `stack/vision` and `stack/advanced_live_portrait`.
-  Kept and labelled, not swapped ([vision notice](../stack/vision/AGPL_NOTICE.md)).
-- **The ALP path is research-use-only:** the node has no license, and it loads InsightFace's
-  `buffalo_l` models (non-commercial research only). See
-  [its notice](../stack/advanced_live_portrait/LICENSE_NOTICE.md). Unresolved until the authors
-  are asked.
-- **Only the `crispasr-stt` and `lfm2vl` images are publishable**; the ALP and vision images are not.
-- LFM2.5-VL uses the non-OSS `lfm1.0` license. ESC-50 is non-commercial. The MIT impulse-response
-  dataset states no license.
-- IDOL / SMPL-X are not included and are license-gated.
+Checked against each upstream's own license file or model card on 2026-09-24. Where nothing is
+stated, we say the license is unknown.
+
+- **Two services depend on `ultralytics` (AGPL-3.0):** `stack/vision` and
+  `stack/advanced_live_portrait`. Kept, not swapped ([vision notice](../stack/vision/AGPL_NOTICE.md)).
+- **Advanced LivePortrait:** the ComfyUI node has no license file, so its license is **unknown**.
+  It loads InsightFace's `buffalo_l` models, which InsightFace states are non-commercial research
+  only. See [its notice](../stack/advanced_live_portrait/LICENSE_NOTICE.md).
+- **We publish only the `crispasr-stt` and `lfm2vl` images.** The other services' images are not
+  published.
+- **Unknown licenses:** the ALP node, the MIT impulse-response dataset (none stated on its card) and
+  `kanade-tokenizer` (only referenced).
+- LFM2.5-VL uses the non-OSS `lfm1.0` license. ESC-50 is non-commercial. IDOL and SMPL-X are not
+  included.
 - The copyright line in `LICENSE` names the GitHub account (`jajmangold`). Replace it with a legal
-  name if you want one before publication.
+  name if you want one.
 
 ## Media
 
@@ -130,63 +134,6 @@ round trip in `media/` was run inside a CrispASR container image for that reason
 No lip-synced *speech* video is included: the MuseTalk speech renders on disk belong to identities
 that could not be cleared, and re-rendering needs the resident stack, which was not run for this
 release.
-
-## Harness portability
-
-`speech/eval/` scripts read `CRISPASR_BIN`, `CRISPASR_MODEL`, `CRISPASR_GPU` and
-`CRISPASR_MODEL_DIR`. They were made configurable during release prep: an earlier commit still
-hardcoded the original scratch paths and GPU index. `gpu_stream_test.py` is Docker-specific and
-kept as historical evidence only. The CLI binary needs CUDA runtime libraries on the host; the
-round trip in `media/` was run inside a CrispASR container image for that reason.
-
-## Not done
-
-- **CrispASR patches are not upstreamed** and have no native regression tests.
-- **The crosstalk separation gate is documented but not implemented**; separation is wired into
-  nothing.
-- **Speech-separation** is fixed at two sources.
-- **Only three portrait identities** were used for controllability measurement; interactions
-  between simultaneously-active controls are recorded but not analysed.
-- **OCR correctness was never verified**; only latency was measured.
-- **The `spec/` adapters and compositor were never built**; the running stack does not use the
-  contracts.
-- **Hardware assumptions.** Compose defaults to GPU index 0 for every service; the original
-  deployment spread services over ~10 specific cards. On a single GPU you will hit the
-  serialization and VRAM limits described in the notebook. All target architectures are sm_70.
-
-## Licensing (see NOTICE, checked against upstream on 2026-09-24)
-
-- **Two services pull in `ultralytics` (AGPL-3.0):** `stack/vision` and `stack/advanced_live_portrait`.
-  Kept and labelled, not swapped ([vision notice](../stack/vision/AGPL_NOTICE.md)).
-- **The ALP path is research-use-only:** the node has no license, and it loads InsightFace's
-  `buffalo_l` models (non-commercial research only). See
-  [its notice](../stack/advanced_live_portrait/LICENSE_NOTICE.md). Unresolved until the authors
-  are asked.
-- **Only the `crispasr-stt` and `lfm2vl` images are publishable**; the ALP and vision images are not.
-- LFM2.5-VL uses the non-OSS `lfm1.0` license. ESC-50 is non-commercial. The MIT impulse-response
-  dataset states no license.
-- IDOL / SMPL-X are not included and are license-gated.
-- The copyright line in `LICENSE` names the GitHub account (`jajmangold`). Replace it with a legal
-  name if you want one before publication.
-
-## Media
-
-**Included:** [`media/audio/`](../media/audio/): four Kokoro preset-voice lines and their STT
-round-trip scores. Provenance by construction (scripted text, named preset voice, hashed model).
-The earlier playground/voice-lab WAVs were *not* used: that path mixes preset, clone and convert
-modes with no per-file record, so a clone of someone's recording could be among them.
-
-**Not included: face videos.** Candidates were reviewed frame by frame and held back:
-
-| candidate | reason held back |
-|---|---|
-| expression-bank clips (10 portrait identities) | 6 of 10 are real people or stock photos, including personal family photos; the remaining portraits have no generation record |
-| `cartoon_talk` | heavily degraded, blurry render; not representative of anything that worked |
-| `idol_final_keep` (and the `idol_*` series) | needs the license-gated SMPL-X body model, which is not included |
-| `greenman_talk15_tight`, `farmer_song_horse`, `pastor_altar_final` | photoreal faces whose source images could not be traced |
-
-A face clip can go in as soon as its source portrait is provably synthetic (generation prompt or
-job record kept alongside). Attestation from the owner is enough; the records on disk are not.
 
 ## Deliberately excluded
 

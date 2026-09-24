@@ -6,12 +6,12 @@ relicense anything below, and it does not cover model weights, datasets or gener
 No weights or datasets are included in this repository.
 
 Every entry below was checked on 2026-09-24 against the upstream's own license file or model
-card (GitHub / Hugging Face APIs). Two entries could not be resolved and are marked UNRESOLVED.
+card (GitHub / Hugging Face APIs). Where upstream states no license, the entry says UNKNOWN.
 This is a good-faith engineering review, not legal advice.
 
 Components that restrict how this stack can be used or distributed
 -------------------------------------------------------------------
-These four matter. Read them before you publish an image or use anything commercially.
+These four matter if you want to redistribute or use anything commercially.
 
 1. ultralytics (AGPL-3.0)
    Used by TWO services: stack/vision (ultralytics==8.4.145, YOLO26n) and
@@ -24,14 +24,13 @@ These four matter. Read them before you publish an image or use anything commerc
    (LivePortrait/utils/face_analysis_diy.py upstream). InsightFace's code is MIT, but its
    README states that models trained on its data "are available for non-commercial research
    purposes only" and that buffalo_l requires contacting them for licensing. The LivePortrait
-   weights bundle ships an `insightface` directory. Treat the LivePortrait/ALP path as
-   research-use-only.
+   weights bundle ships an `insightface` directory.
 
-3. ComfyUI-AdvancedLivePortrait (NO LICENSE)
+3. ComfyUI-AdvancedLivePortrait (license UNKNOWN)
    github.com/PowerHouseMan/ComfyUI-AdvancedLivePortrait has no license file (GitHub reports
-   none; last push 2024-08-21). Without a license, all rights are reserved by default. This
-   repository does not contain that code: the Dockerfile fetches a pinned commit at build time.
-   Do not publish an image containing it. UNRESOLVED: ask the author for a license.
+   none; last push 2024-08-21), so we do not know what its terms are. This repository does not
+   contain that code: the Dockerfile fetches a pinned commit at build time. We do not publish an
+   image that contains it.
 
 4. LFM2.5-VL-450M / 3B (LFM 1.0 license, not an OSS license)
    Model card license: "other / lfm1.0". Read it before use. Not included.
@@ -49,7 +48,7 @@ Code and services
 | kokoro-onnx | referenced | MIT |
 | misaki | G2P dependency | Apache-2.0 |
 | kokoro_hack | referenced | Apache-2.0 |
-| kanade-tokenizer | referenced | no license file found upstream. UNRESOLVED (only referenced, not used) |
+| kanade-tokenizer | referenced | no license file found upstream: UNKNOWN (only referenced, not used) |
 | TAESD | MuseTalk decode path | MIT |
 | MediaPipe | face / pose landmarkers | Apache-2.0 |
 | LiveKit Agents | voice-agent | Apache-2.0 |
@@ -74,7 +73,7 @@ Datasets used by the evaluation harness (downloaded at run time, not included)
 |---|---|
 | LibriSpeech (openslr/librispeech_asr) | CC BY 4.0 |
 | ESC-50 | CC BY-NC 3.0 for the dataset as a whole (ESC-10 subset: CC BY 3.0); per-clip terms vary. Non-commercial |
-| MIT environmental impulse responses (davidscripka/) | no license stated on the dataset card. UNRESOLVED |
+| MIT environmental impulse responses (davidscripka/) | no license stated on the dataset card: UNKNOWN |
 
 Generated media
 ---------------
@@ -89,4 +88,4 @@ Container images
 Images built from stack/crispasr-stt and stack/lfm2vl contain only MIT-licensed code plus NVIDIA
 CUDA runtime libraries. They are the only images this repository publishes (ghcr.io/jajmangold/not_human-crispasr-stt and
 -lfm2vl, tag 0.1.0, private). Images for
-advanced_live_portrait and vision are not published, for the reasons in items 1-3.
+advanced_live_portrait and vision are not published (see items 1-3).
