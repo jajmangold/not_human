@@ -126,7 +126,7 @@ stated, we say the license is unknown.
 
 | candidate | reason |
 |---|---|
-| expression clips of the other portrait identities | real people or personal photographs (including family photos) |
+| expression clips of the other portrait identities | real people or personal photographs |
 | `cartoon_talk` | heavily degraded, blurry render |
 | `idol_final_keep` and the `idol_*` series | need the license-gated SMPL-X body model, which is not included |
 | `greenman_talk15_tight`, `farmer_song_horse`, `pastor_altar_final` | photoreal faces whose source images could not be traced; can be added on the owner's attestation |
