@@ -32,7 +32,7 @@ ultralytics / YOLO26n ... AGPL-3.0 (general knowledge). stack/vision pins
                           ultralytics==8.4.145. Distributing or network-serving
                           that service carries AGPL obligations that conflict with
                           treating it as MIT. Swap the detector, or treat
-                          stack/vision as AGPL.
+                          stack/vision as AGPL (see stack/vision/AGPL_NOTICE.md).
 SepFormer (speechbrain) . Apache-2.0 (general knowledge).
 
 Models (not included; fetched by you)

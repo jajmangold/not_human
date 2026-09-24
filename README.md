@@ -148,5 +148,5 @@ this repo yet**. Those we could not clear stay out.
 
 MIT for the code written here ([`LICENSE`](LICENSE)). It does not cover the third-party code,
 models and datasets this depends on, some of which are not permissively licensed (one service
-pulls in an AGPL-3.0 dependency; the LivePortrait lineage is unresolved). Read [`NOTICE`](NOTICE)
+pulls in an AGPL-3.0 dependency, see `stack/vision/AGPL_NOTICE.md`; the LivePortrait lineage is unresolved). Read [`NOTICE`](NOTICE)
 before you redistribute or use commercially.

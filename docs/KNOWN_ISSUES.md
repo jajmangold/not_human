@@ -80,11 +80,26 @@ recorded result files or issue threads. They were not re-measured for this relea
 
 ## Licensing (see NOTICE)
 
-- `stack/vision` depends on `ultralytics` (AGPL-3.0 upstream).
+- `stack/vision` depends on `ultralytics` (AGPL-3.0 upstream). Kept and labelled rather than
+  swapped; see `stack/vision/AGPL_NOTICE.md`.
 - The Live Portrait lineage had no LICENSE at the pinned revision.
 - IDOL / SMPL-X are not included and are license-gated.
-- The copyright line in `LICENSE` reads "the not_human authors" and needs a real holder name
-  before publication.
+- The copyright line in `LICENSE` names the GitHub account (`jajmangold`). Replace it with a legal
+  name if you want one before publication.
+
+## Demo clips: none, and why
+
+No clip is included. Candidates were reviewed frame by frame and held back:
+
+| candidate | reason held back |
+|---|---|
+| `cartoon_talk` | heavily degraded, blurry render; not representative of anything that worked |
+| `idol_final_keep` (and the `idol_*` series) | needs the license-gated SMPL-X body model, which is not included |
+| `greenman_talk15_tight`, `farmer_song_horse`, `pastor_altar_final` | photoreal faces whose source images could not be traced; a real person's photo behind any of them would make the clip unusable |
+
+The clips that would be worth adding are the ones whose source portrait is provably synthetic
+(with the generation prompt or job record kept alongside). Generate new ones from
+`tools/avatar_identity_director.py` output if you want clean provenance.
 
 ## Deliberately excluded
 
