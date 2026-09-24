@@ -1,0 +1,82 @@
+{
+  "ordinaryImplementation": {
+    "mode": "precise-coding",
+    "request": {
+      "model": "/models/Qwen3.6-35B-A3B-UD-Q3_K_XL-REAP.gguf",
+      "messages": [{"role": "user", "content": "Implement the bounded change."}],
+      "stream": false,
+      "cache_prompt": true,
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 20,
+      "reasoning_effort": "medium"
+    },
+    "response": {"content": "I will implement the bounded change."}
+  },
+  "review": {
+    "mode": "thinking/general",
+    "request": {
+      "model": "qwen27b",
+      "messages": [{"role": "user", "content": "Review this exact commit."}],
+      "stream": false,
+      "cache_prompt": true,
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": 20,
+      "reasoning_effort": "high"
+    },
+    "response": {"content": "The supplied evidence is sufficient for review."}
+  },
+  "forcedTool": {
+    "mode": "forced-tool",
+    "request": {
+      "model": "/models/Qwen3.6-35B-A3B-UD-Q3_K_XL-REAP.gguf",
+      "messages": [{"role": "user", "content": "Read README.md."}],
+      "tools": [{"type": "function", "function": {"name": "read_file"}}],
+      "tool_choice": "required",
+      "stream": false,
+      "cache_prompt": true,
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 1,
+      "reasoning_effort": "off"
+    },
+    "response": {"content": "", "tool_calls": [{"function": {"name": "read_file", "arguments": "{\"path\":\"README.md\"}"}}]}
+  },
+  "nonThinking": {
+    "mode": "non-thinking",
+    "request": {
+      "model": "Qwen/Qwen3.5-9B",
+      "messages": [{"role": "user", "content": "Extract the issue labels."}],
+      "stream": false,
+      "cache_prompt": true,
+      "temperature": 0.7,
+      "top_p": 0.8,
+      "top_k": 20,
+      "reasoning_effort": "off"
+    },
+    "response": {"content": "labels: infrastructure, review"}
+  },
+  "streaming": {
+    "chunks": [
+      {"delta": {"content": "The "}},
+      {"delta": {"content": "implementation "}},
+      {"delta": {"content": "is ready."}},
+      {"finish_reason": "stop"}
+    ],
+    "assembledContent": "The implementation is ready."
+  },
+  "multiTurnPreservation": {
+    "messages": [
+      {"role": "user", "content": "Keep the existing behavior."},
+      {"role": "assistant", "content": "Existing behavior retained.", "reasoning_content": "I checked the preserved path."},
+      {"role": "tool", "tool_call_id": "call-1", "content": "README.md contents"},
+      {"role": "user", "content": "Now make the surgical edit."}
+    ]
+  },
+  "prefixReuse": {
+    "firstRequest": {"cache_prompt": true, "messages": [{"role": "system", "content": "Pi governed system prompt"}]},
+    "secondRequest": {"cache_prompt": true, "messages": [{"role": "system", "content": "Pi governed system prompt"}, {"role": "user", "content": "Continue."}]},
+    "sharedPrefixMessageCount": 1
+  }
+}

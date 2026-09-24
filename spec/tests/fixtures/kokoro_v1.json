@@ -1,0 +1,18 @@
+{
+  "schema": "KokoroV1",
+  "schema_version": 1,
+  "timestamp_ns": 1000000,
+  "sequence": 7,
+  "sample_rate_hz": 24000,
+  "channels": 1,
+  "sample_width": 2,
+  "samples": [0, 16384, -16384, 32767, -32768],
+  "provenance": {
+    "model": "kokoro-v1.0",
+    "model_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "data": "synthetic-sine",
+    "data_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "revision": "a388eb7ec9befc21b13f76581435b0bfa4cc372c",
+    "fixture": "tests/fixtures/kokoro_v1.json"
+  }
+}

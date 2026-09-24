@@ -1,0 +1,1 @@
+{"authority":{"face":1.0},"face":{"blendshapes":{"jawOpen":0.25}},"provenance":{"data":"synthetic-fixture","license":"none","model":"none"},"revision":"v1.0.0","root":{"position":[0.0,1.0,0.0],"rotation6d":[1.0,0.0,0.0,0.0,1.0,0.0]},"schema":"ControlFrameV1","schema_revision":"v1.0.0","schema_version":1,"sequence":7,"timestamp_ns":1000000,"validity":{"reason":"","valid":true}}

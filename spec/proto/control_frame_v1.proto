@@ -1,0 +1,30 @@
+syntax = "proto3";
+package nothuman.contract;
+
+message ControlFrameV1 {
+  uint64 timestamp_ns = 1;
+  uint64 sequence = 2;
+  RootControl root = 10;
+  BodyControl body = 11;
+  HeadControl head = 12;
+  GazeControl gaze = 13;
+  FaceControl face = 14;
+  SpeechControl speech = 15;
+  ProsodyControl prosody = 16;
+  GestureControl gesture = 17;
+  BehaviorIntent behavior = 18;
+  reserved 19 to 29;  // reserved for future control channels; field numbers are stable and must not be reused
+  ControlAuthorities authority = 30;
+  ControlValidity validity = 31;
+}
+message RootControl { repeated double position = 1; repeated double rotation6d = 2; }
+message BodyControl { repeated double values = 1; }
+message HeadControl { repeated double rotation6d = 1; }
+message GazeControl { repeated double target = 1; }
+message FaceControl { map<string, double> blendshapes = 1; }
+message SpeechControl { bool speaking = 1; double mouth_open = 2; }
+message ProsodyControl { double energy = 1; double rate = 2; }
+message GestureControl { string name = 1; double intensity = 2; }
+message BehaviorIntent { string label = 1; }
+message ControlAuthorities { map<string, double> values = 1; }
+message ControlValidity { bool valid = 1; string reason = 2; }

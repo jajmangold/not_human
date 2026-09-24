@@ -1,0 +1,19 @@
+{
+  "schema": "TranscriptV1",
+  "schema_version": 1,
+  "timestamp_ns": 2000000,
+  "sequence": 3,
+  "text": "Concord returned to its place amidst the tents.",
+  "start_ns": 0,
+  "end_ns": 3505000000,
+  "is_final": true,
+  "no_speech_prob": 0.02,
+  "provenance": {
+    "model": "crispasr-large-v3-turbo",
+    "model_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "data": "librispeech-spk6930-clip0",
+    "data_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "revision": "musetalk-volta-crispasr-stt-1",
+    "fixture": "tests/fixtures/transcript_v1.json"
+  }
+}

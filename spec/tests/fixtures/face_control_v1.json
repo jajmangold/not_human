@@ -1,0 +1,1 @@
+{"blendshapes":{"eyeBlinkLeft":0.1,"jawOpen":0.25},"confidence":{"eyeBlinkLeft":0.85,"jawOpen":0.95},"schema":"FaceControlV1","schema_version":1,"sequence":7,"timestamp_ns":1000000,"transforms":{"x":0.0,"y":0.0,"z":0.0},"validity":{"reason":"","valid":true}}
